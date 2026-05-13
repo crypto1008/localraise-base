@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LocalRaise — Fund Local Businesses on Base</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --blue:#0052ff;
+      --blue-dark:#0040cc;
+      --green:#00d084;
+      --red:#ff4444;
+      --orange:#ff8800;
+      --purple:#7c3aed;
+      --bg:#050505;
+      --card:#0f0f0f;
+      --card2:#161616;
+      --border:#1e1e1e;
+      --text:#ffffff;
+      --muted:#888888;
+      --muted2:#555555;
+    }
+    body{font-family:'Arial',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+    /* ── NAV ── */
+    nav{background:#0a0a0aee;backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:0 30px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+    .nav-logo{font-size:20px;font-weight:800;color:var(--blue)}
+    .nav-logo span{color:var(--text)}
+    .nav-right{display:flex;align-items:center;gap:12px}
+    .nav-address{background:var(--card);border:1px solid var(--border);padding:7px 14px;border-radius:8px;font-size:13px;color:var(--muted)}
+    .btn-connect-nav{background:var(--blue);color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer}
+    .btn-connect-nav:hover{background:var(--blue-dark)}
+
+    /* ── HERO ── */
+    .hero{padding:80px 30px 60px;text-align:center;background:radial-gradient(ellipse at 50% 0%,#0052ff15 0%,transparent 70%)}
+    .hero-badge{display:inline-block;background:#0052ff22;border:1px solid #0052ff44;color:var(--blue);font-size:12px;padding:5px 14px;border-radius:20px;margin-bottom:20px}
+    .hero h1{font-size:52px;font-weight:900;line-height:1.1;margin-bottom:16px;letter-spacing:-1px}
+    .hero h1 span{color:var(--blue)}
+    .hero p{font-size:18px;color:var(--muted);max-width:540px;margin:0 auto 32px;line-height:1.6}
+    .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn-primary{background:var(--blue);color:#fff;border:none;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s}
+    .btn-primary:hover{background:var(--blue-dark);transform:translateY(-1px)}
+    .btn-secondary{background:transparent;color:#fff;border:1px solid var(--border);padding:14px 28px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s}
+    .btn-secondary:hover{border-color:var(--blue);color:var(--blue)}
+
+    /* ── STATS BAR ── */
+    .stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .stat-item{background:var(--card);padding:24px;text-align:center}
+    .stat-value{font-size:28px;font-weight:800;color:var(--blue);margin-bottom:4px}
+    .stat-label{font-size:13px;color:var(--muted)}
+
+    /* ── MAIN ── */
+    .main{max-width:1100px;margin:0 auto;padding:40px 20px}
+
+    /* ── TABS ── */
+    .tabs{display:flex;gap:6px;margin-bottom:30px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:0}
+    .tab{padding:10px 20px;border-radius:8px 8px 0 0;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:14px;font-weight:600;transition:all .2s;border-bottom:2px solid transparent;margin-bottom:-1px}
+    .tab:hover{color:var(--text)}
+    .tab.active{color:var(--blue);border-bottom:2px solid var(--blue)}
+    .panel{display:none}.panel.active{display:block}
+
+    /* ── CARDS ── */
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:20px}
+    .card h2{font-size:18px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+    .card-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+    /* ── FORM ── */
+    .form-group{margin-bottom:14px}
+    .form-label{font-size:12px;color:var(--muted);margin-bottom:6px;display:block;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+    input,textarea,select{width:100%;padding:11px 14px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;outline:none;transition:border .2s}
+    input:focus,textarea:focus,select:focus{border-color:var(--blue)}
+    select option{background:var(--card2)}
+    .input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+    /* ── BUTTONS ── */
+    .btn-full{width:100%;padding:13px;border-radius:10px;border:none;cursor:pointer;font-size:15px;font-weight:700;transition:all .2s}
+    .btn-blue{background:var(--blue);color:#fff}
+    .btn-blue:hover{background:var(--blue-dark)}
+    .btn-green{background:var(--green);color:#000}
+    .btn-green:hover{opacity:.9}
+    .btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}
+    .btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+
+    /* ── STATUS ── */
+    .status-msg{padding:10px 14px;border-radius:8px;font-size:13px;margin-top:12px;display:none}
+    .status-msg.show{display:block}
+    .status-msg.success{background:#00d08422;border:1px solid #00d08444;color:var(--green)}
+    .status-msg.error{background:#ff444422;border:1px solid #ff444444;color:var(--red)}
+    .status-msg.loading{background:#0052ff22;border:1px solid #0052ff44;color:var(--blue)}
+
+    /* ── CAMPAIGN CARDS ── */
+    .campaigns-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+    .campaign-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;transition:border .2s;cursor:pointer}
+    .campaign-card:hover{border-color:var(--blue)}
+    .campaign-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+    .campaign-name{font-size:16px;font-weight:700;margin-bottom:3px}
+    .campaign-location{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
+    .campaign-desc{font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .progress-wrap{margin-bottom:12px}
+    .progress-bar{background:var(--border);border-radius:10px;height:6px;margin-bottom:6px}
+    .progress-fill{border-radius:10px;height:6px;transition:width .5s;background:var(--blue)}
+    .progress-fill.full{background:var(--green)}
+    .progress-stats{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+    .campaign-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
+    .b-food{background:#ff880022;color:#ff8800;border:1px solid #ff880033}
+    .b-retail{background:#0052ff22;color:#0052ff;border:1px solid #0052ff33}
+    .b-transport{background:#7c3aed22;color:#a78bfa;border:1px solid #7c3aed33}
+    .b-active{background:#00d08422;color:var(--green);border:1px solid #00d08433}
+    .b-funded{background:#0052ff22;color:var(--blue);border:1px solid #0052ff33}
+    .b-repaying{background:#ff880022;color:#ff8800;border:1px solid #ff880033}
+    .b-completed{background:#00d08422;color:var(--green);border:1px solid #00d08433}
+    .b-cancelled{background:#ff444422;color:var(--red);border:1px solid #ff444433}
+    .b-revenue{background:#7c3aed22;color:#a78bfa;border:1px solid #7c3aed33}
+    .b-fixed{background:#ff880022;color:#ff8800;border:1px solid #ff880033}
+    .campaign-footer{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);padding-top:12px;border-top:1px solid var(--border)}
+    .invest-btn{background:var(--blue);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
+    .invest-btn:hover{background:var(--blue-dark)}
+
+    /* ── PORTFOLIO ── */
+    .portfolio-item{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}
+    .portfolio-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .portfolio-name{font-size:15px;font-weight:700}
+    .portfolio-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+    .portfolio-stat{text-align:center;background:var(--card);border-radius:8px;padding:10px}
+    .portfolio-stat-value{font-size:16px;font-weight:700;color:var(--blue)}
+    .portfolio-stat-label{font-size:11px;color:var(--muted);margin-top:2px}
+
+    /* ── REPAYMENT ── */
+    .repay-item{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}
+    .repay-header{display:flex;justify-content:space-between;margin-bottom:12px}
+    .repay-title{font-size:15px;font-weight:700}
+    .repay-schedule{font-size:12px;color:var(--muted);margin-bottom:10px}
+
+    /* ── FILTER BAR ── */
+    .filter-bar{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;align-items:center}
+    .filter-btn{padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:13px;transition:all .2s}
+    .filter-btn:hover,.filter-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .search-input{flex:1;min-width:200px;padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:20px;color:var(--text);font-size:13px;outline:none}
+    .search-input:focus{border-color:var(--blue)}
+
+    /* ── MODAL ── */
+    .modal-overlay{position:fixed;inset:0;background:#000000cc;z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+    .modal-overlay.show{display:flex}
+    .modal{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto}
+    .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+    .modal-title{font-size:18px;font-weight:700}
+    .modal-close{background:transparent;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:4px}
+    .modal-close:hover{color:var(--text)}
+
+    /* ── EMPTY STATE ── */
+    .empty{text-align:center;padding:60px 20px;color:var(--muted)}
+    .empty-icon{font-size:48px;margin-bottom:16px}
+    .empty h3{font-size:18px;color:var(--text);margin-bottom:8px}
+    .empty p{font-size:14px}
+
+    /* ── HOW IT WORKS ── */
+    .how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:20px}
+    .how-item{text-align:center;padding:20px}
+    .how-icon{font-size:36px;margin-bottom:12px}
+    .how-title{font-size:15px;font-weight:700;margin-bottom:8px}
+    .how-desc{font-size:13px;color:var(--muted);line-height:1.5}
+    .how-step{display:inline-block;background:var(--blue);color:#fff;width:24px;height:24px;border-radius:50%;font-size:12px;font-weight:700;line-height:24px;margin-bottom:10px}
+
+    /* ── MISC ── */
+    .divider{height:1px;background:var(--border);margin:20px 0}
+    .text-muted{color:var(--muted);font-size:13px}
+    .text-green{color:var(--green)}
+    .text-blue{color:var(--blue)}
+    .text-red{color:var(--red)}
+    .flex-between{display:flex;justify-content:space-between;align-items:center}
+    .loading-spinner{text-align:center;padding:40px;color:var(--muted);font-size:14px}
+
+    @media(max-width:700px){
+      .hero h1{font-size:32px}
+      .card-grid,.input-row,.how-grid{grid-template-columns:1fr}
+      .stats-bar{grid-template-columns:1fr}
+      .campaigns-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Local<span>Raise</span></div>
+  <div class="nav-right">
+    <div class="nav-address" id="navAddress">Not connected</div>
+    <button class="btn-connect-nav" onclick="connectWallet()">Connect Wallet</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🚀 Built on Base Mainnet</div>
+  <h1>Fund Local Businesses.<br/><span>Earn Real Returns.</span></h1>
+  <p>The world's first micro-investment platform for local businesses. No banks. No middlemen. Just community funding on Base.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="showTab('browse')">Browse Campaigns</button>
+    <button class="btn-secondary" onclick="showTab('create')">List Your Business</button>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-value" id="statCampaigns">0</div>
+    <div class="stat-label">Total Campaigns</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="statVolume">0 ETH</div>
+    <div class="stat-label">Total Volume Funded</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="statInvestors">0</div>
+    <div class="stat-label">Total Investors</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('browse')">🏪 Browse</button>
+    <button class="tab" onclick="showTab('create')">➕ List Business</button>
+    <button class="tab" onclick="showTab('portfolio')">💼 My Portfolio</button>
+    <button class="tab" onclick="showTab('repay')">💰 Repayments</button>
+    <button class="tab" onclick="showTab('how')">❓ How It Works</button>
+  </div>
+
+  <!-- BROWSE TAB -->
+  <div class="panel active" id="panel-browse">
+    <div class="filter-bar">
+      <input class="search-input" id="searchInput" placeholder="Search businesses..." oninput="filterCampaigns()"/>
+      <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+      <button class="filter-btn" onclick="setFilter('0',this)">🍵 Food</button>
+      <button class="filter-btn" onclick="setFilter('1',this)">🛒 Retail</button>
+      <button class="filter-btn" onclick="setFilter('2',this)">🚗 Transport</button>
+      <button class="filter-btn" onclick="setFilter('active',this)">● Active</button>
+    </div>
+    <div id="campaignsList">
+      <div class="loading-spinner">Connect wallet and wait for campaigns to load...</div>
+    </div>
+  </div>
+
+  <!-- CREATE TAB -->
+  <div class="panel" id="panel-create">
+    <div class="card-grid">
+      <div>
+        <div class="card">
+          <h2>🏪 Business Details</h2>
+          <div class="form-group">
+            <label class="form-label">Business Name</label>
+            <input type="text" id="bizName" placeholder="e.g. Ramesh Chai Shop"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea id="bizDesc" rows="3" placeholder="Tell investors about your business, what you need funding for..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Location</label>
+            <input type="text" id="bizLocation" placeholder="e.g. Dehradun, Uttarakhand"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="bizCategory">
+              <option value="0">🍵 Food & Beverage</option>
+              <option value="1">🛒 Retail & Local Shop</option>
+              <option value="2">🚗 Transport & Logistics</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <h2>💰 Funding Details</h2>
+          <div class="form-group">
+            <label class="form-label">Return Model</label>
+            <select id="bizReturnModel" onchange="updateReturnHelp()">
+              <option value="0">📊 Revenue Share — Share % of monthly profit</option>
+              <option value="1">📈 Fixed Return — Pay back principal + fixed %</option>
+            </select>
+          </div>
+          <div class="input-row">
+            <div class="form-group">
+              <label class="form-label">Goal Amount (ETH)</label>
+              <input type="number" id="bizGoal" placeholder="e.g. 0.5" step="0.01"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Return % <span id="returnLabel">of monthly profit</span></label>
+              <input type="number" id="bizReturn" placeholder="e.g. 20" min="5" max="200"/>
+            </div>
+          </div>
+          <div class="input-row">
+            <div class="form-group">
+              <label class="form-label">Funding Deadline (Days)</label>
+              <input type="number" id="bizDeadline" placeholder="e.g. 30" min="7" max="90"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Repayment Duration (Months)</label>
+              <input type="number" id="bizMonths" placeholder="e.g. 12" min="3" max="36"/>
+            </div>
+          </div>
+          <div class="card" style="background:var(--card2);padding:14px;margin-bottom:16px">
+            <div id="returnHelp" class="text-muted" style="font-size:13px;line-height:1.6">
+              📊 <strong>Revenue Share:</strong> You share a percentage of your monthly profit with investors every month for the repayment duration.
+            </div>
+          </div>
+          <button class="btn-full btn-blue" onclick="createCampaign()">🚀 Launch Campaign</button>
+          <div class="status-msg" id="createStatus"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO TAB -->
+  <div class="panel" id="panel-portfolio">
+    <div class="card">
+      <h2>💼 My Investment Portfolio</h2>
+      <div id="portfolioContent">
+        <div class="empty">
+          <div class="empty-icon">💼</div>
+          <h3>No investments yet</h3>
+          <p>Connect your wallet and invest in local businesses to see your portfolio here.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🏪 My Business Campaigns</h2>
+      <div id="myBusinessContent">
+        <div class="empty">
+          <div class="empty-icon">🏪</div>
+          <h3>No campaigns yet</h3>
+          <p>List your business to start raising funds from your community.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPAY TAB -->
+  <div class="panel" id="panel-repay">
+    <div class="card">
+      <h2>💰 Make a Repayment</h2>
+      <p class="text-muted" style="margin-bottom:20px">
+        Send monthly payments to your investors. Each payment builds your reputation score on Base.
+      </p>
+      <div class="form-group">
+        <label class="form-label">Campaign ID</label>
+        <input type="number" id="repayId" placeholder="Enter your campaign ID"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Amount (ETH)</label>
+        <input type="number" id="repayAmount" placeholder="e.g. 0.05" step="0.001"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Note for Investors</label>
+        <input type="text" id="repayNote" placeholder="e.g. Month 3 revenue share — sales up 20% this month!"/>
+      </div>
+      <div id="repayTypeInfo" style="background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:16px;font-size:13px;color:var(--muted)">
+        Enter a campaign ID to see repayment type
+      </div>
+      <button class="btn-full btn-green" onclick="makeRepayment()">💸 Send Payment to Investors</button>
+      <div class="status-msg" id="repayStatus"></div>
+    </div>
+
+    <div class="card">
+      <h2>📋 Repayment History</h2>
+      <div class="form-group">
+        <label class="form-label">Campaign ID</label>
+        <div style="display:flex;gap:10px">
+          <input type="number" id="historyId" placeholder="Enter campaign ID" style="flex:1"/>
+          <button onclick="loadRepayHistory()" style="background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 20px;cursor:pointer;font-weight:700">Load</button>
+        </div>
+      </div>
+      <div id="repayHistory"></div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS TAB -->
+  <div class="panel" id="panel-how">
+    <div class="card">
+      <h2>❓ How LocalRaise Works</h2>
+      <div class="how-grid">
+        <div class="how-item">
+          <div class="how-step">1</div>
+          <div class="how-icon">🏪</div>
+          <div class="how-title">Business Lists Campaign</div>
+          <div class="how-desc">A local business creates a funding campaign with their goal, return model, and repayment timeline. Takes 2 minutes.</div>
+        </div>
+        <div class="how-item">
+          <div class="how-step">2</div>
+          <div class="how-icon">💰</div>
+          <div class="how-title">Community Invests</div>
+          <div class="how-desc">Friends, family and community members invest any amount of ETH. When the goal is reached, the business receives funds instantly.</div>
+        </div>
+        <div class="how-item">
+          <div class="how-step">3</div>
+          <div class="how-icon">📈</div>
+          <div class="how-title">Investors Earn Returns</div>
+          <div class="how-desc">Business sends monthly payments back to investors via the contract. Every investor earns proportional returns automatically.</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="card-grid">
+        <div>
+          <h3 style="margin-bottom:14px;font-size:15px">📊 Revenue Share Model</h3>
+          <p class="text-muted" style="font-size:13px;line-height:1.7">Business shares a percentage of monthly profit with investors every month. Great for established businesses with steady revenue. Investors earn more when business does well.</p>
+        </div>
+        <div>
+          <h3 style="margin-bottom:14px;font-size:15px">📈 Fixed Return Model</h3>
+          <p class="text-muted" style="font-size:13px;line-height:1.7">Business pays back the principal amount plus a fixed percentage over the repayment period. Predictable returns for investors. Great for businesses with clear cash flow projections.</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div style="background:var(--card2);border-radius:10px;padding:20px">
+        <h3 style="margin-bottom:12px;font-size:15px">🔒 How Your Money Is Protected</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--green)">✓</span>Automatic refund if funding goal not reached by deadline</div>
+          <div style="font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--green)">✓</span>All transactions transparent and visible on Basescan</div>
+          <div style="font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--green)">✓</span>Smart contract holds and distributes all funds automatically</div>
+          <div style="font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--green)">✓</span>Business reputation score tracked permanently onchain</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📄 Contract Information</h2>
+      <div style="display:grid;gap:10px">
+        <div class="flex-between" style="padding:12px;background:var(--card2);border-radius:8px">
+          <span class="text-muted" style="font-size:13px">Contract Address</span>
+          <span style="font-size:13px" id="contractAddressDisplay">Loading...</span>
+        </div>
+        <div class="flex-between" style="padding:12px;background:var(--card2);border-radius:8px">
+          <span class="text-muted" style="font-size:13px">Network</span>
+          <span style="font-size:13px">Base Mainnet (Chain ID: 8453)</span>
+        </div>
+        <div class="flex-between" style="padding:12px;background:var(--card2);border-radius:8px">
+          <span class="text-muted" style="font-size:13px">Platform Fee on Raise</span>
+          <span style="font-size:13px">1.5%</span>
+        </div>
+        <div class="flex-between" style="padding:12px;background:var(--card2);border-radius:8px">
+          <span class="text-muted" style="font-size:13px">Repayment Fee</span>
+          <span style="font-size:13px">0.5%</span>
+        </div>
+        <a id="basescanLink" href="#" target="_blank" style="display:block;text-align:center;padding:12px;background:var(--blue);color:#fff;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px">View on Basescan ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- INVEST MODAL -->
+<div class="modal-overlay" id="investModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Invest in Campaign</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modalCampaignInfo" style="background:var(--card2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:13px;color:var(--muted);line-height:1.7"></div>
+    <div class="form-group">
+      <label class="form-label">Investment Amount (ETH)</label>
+      <input type="number" id="investAmount" placeholder="e.g. 0.05" step="0.001"/>
+    </div>
+    <div id="investReturn" style="background:var(--card2);border-radius:8px;padding:12px;margin-bottom:16px;font-size:13px;color:var(--muted)"></div>
+    <button class="btn-full btn-blue" onclick="confirmInvest()">💰 Confirm Investment</button>
+    <div class="status-msg" id="investStatus"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+<script>
+// ── CONFIG ────────────────────────────────────────────
+const CONTRACT_ADDRESS = "0xe40f38BF361afc883d55Fd0A2e5c2822c182f1A5";
+const ABI = [
+  "function createCampaign(string,string,string,uint8,uint8,uint256,uint256,uint256,uint256) external",
+  "function invest(uint256) external payable",
+  "function cancelCampaign(uint256) external",
+  "function distributeRevenue(uint256,string) external payable",
+  "function repayInstallment(uint256,string) external payable",
+  "function refundExpiredCampaign(uint256) external",
+  "function getAllCampaigns() external view returns (tuple(uint256,address,string,string,string,uint8,uint8,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint8,uint256)[])",
+  "function getCampaign(uint256) external view returns (tuple(uint256,address,string,string,string,uint8,uint8,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint8,uint256))",
+  "function getCampaignsByCategory(uint8) external view returns (tuple(uint256,address,string,string,string,uint8,uint8,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint8,uint256)[])",
+  "function getActiveCampaigns() external view returns (tuple(uint256,address,string,string,string,uint8,uint8,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint8,uint256)[])",
+  "function getInvestment(uint256,address) external view returns (tuple(address,uint256,uint256,uint256,uint256))",
+  "function getInvestorPortfolio(address) external view returns (uint256[])",
+  "function getBusinessCampaigns(address) external view returns (uint256[])",
+  "function getBusinessProfile(address) external view returns (tuple(uint256,uint256,uint256,uint256,uint256,bool))",
+  "function getRepaymentHistory(uint256) external view returns (tuple(uint256,uint256,string)[])",
+  "function getFundingProgress(uint256) external view returns (uint256)",
+  "function getRepaymentProgress(uint256) external view returns (uint256)",
+  "function getMonthlyInstallment(uint256) external view returns (uint256)",
+  "function getPlatformStats() external view returns (uint256,uint256,uint256)",
+  "function isExpired(uint256) external view returns (bool)",
+  "function raiseFeePercent() external view returns (uint256)",
+  "function repaymentFeePercent() external view returns (uint256)",
+  "function treasury() external view returns (address)"
+];
+
+let provider, signer, contract, userAddress;
+let allCampaignsCache = [];
+let currentFilter = "all";
+let currentInvestId = null;
+
+const CATEGORIES = ["🍵 Food","🛒 Retail","🚗 Transport"];
+const CATEGORY_BADGES = ["b-food","b-retail","b-transport"];
+const STATUS_LABELS = ["Active","Funded","Repaying","Completed","Cancelled","Defaulted"];
+const STATUS_BADGES = ["b-active","b-funded","b-repaying","b-completed","b-cancelled","b-cancelled"];
+
+// ── WALLET ────────────────────────────────────────────
+async function connectWallet() {
+  if (!window.ethereum) { alert("Please install MetaMask!"); return; }
+  try {
+    provider = new ethers.BrowserProvider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    signer = await provider.getSigner();
+    userAddress = await signer.getAddress();
+    document.getElementById("navAddress").textContent =
+      userAddress.slice(0,6) + "..." + userAddress.slice(-4);
+    contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+    document.getElementById("contractAddressDisplay").textContent =
+      CONTRACT_ADDRESS.slice(0,10) + "..." + CONTRACT_ADDRESS.slice(-8);
+    document.getElementById("basescanLink").href =
+      "https://basescan.org/address/" + CONTRACT_ADDRESS;
+    await loadStats();
+    await loadCampaigns();
+    await loadPortfolio();
+  } catch(e) {
+    console.error(e);
+  }
+}
+
+// ── TABS ──────────────────────────────────────────────
+function showTab(name) {
+  const names = ["browse","create","portfolio","repay","how"];
+  names.forEach(n => {
+    document.getElementById("panel-"+n).classList.remove("active");
+  });
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.getElementById("panel-"+name).classList.add("active");
+  document.querySelectorAll(".tab")[names.indexOf(name)].classList.add("active");
+  if (name === "portfolio") loadPortfolio();
+}
+
+// ── STATUS MESSAGES ───────────────────────────────────
+function setStatus(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = "status-msg show " + type;
+}
+
+function hideStatus(id) {
+  document.getElementById(id).className = "status-msg";
+}
+
+// ── STATS ─────────────────────────────────────────────
+async function loadStats() {
+  if (!contract) return;
+  try {
+    const [c, v, i] = await contract.getPlatformStats();
+    document.getElementById("statCampaigns").textContent = c.toString();
+    document.getElementById("statVolume").textContent =
+      parseFloat(ethers.formatEther(v)).toFixed(3) + " ETH";
+    document.getElementById("statInvestors").textContent = i.toString();
+  } catch(e) { console.error(e); }
+}
+
+// ── CAMPAIGNS ─────────────────────────────────────────
+async function loadCampaigns() {
+  if (!contract) return;
+  const list = document.getElementById("campaignsList");
+  list.innerHTML = '<div class="loading-spinner">⏳ Loading campaigns...</div>';
+  try {
+    const campaigns = await contract.getAllCampaigns();
+    allCampaignsCache = campaigns;
+    renderCampaigns(campaigns);
+  } catch(e) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div><h3>Error loading campaigns</h3><p>' + e.message + '</p></div>';
+  }
+}
+
+function renderCampaigns(campaigns) {
+  const list = document.getElementById("campaignsList");
+  const search = document.getElementById("searchInput").value.toLowerCase();
+
+  let filtered = campaigns.filter(c => {
+    const name = c[2].toLowerCase();
+    const desc = c[3].toLowerCase();
+    const loc = c[4].toLowerCase();
+    const matchSearch = !search || name.includes(search) || desc.includes(search) || loc.includes(search);
+    const cat = Number(c[5]);
+    const status = Number(c[14]);
+    const matchFilter =
+      currentFilter === "all" ? true :
+      currentFilter === "active" ? status === 0 :
+      currentFilter === cat.toString();
+    return matchSearch && matchFilter;
+  });
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div><h3>No campaigns found</h3><p>Try a different filter or search term.</p></div>';
+    return;
+  }
+
+  list.innerHTML = '<div class="campaigns-grid">' +
+    filtered.map(c => campaignCard(c)).join("") +
+    '</div>';
+}
+
+function campaignCard(c) {
+  const id = Number(c[0]);
+  const goal = parseFloat(ethers.formatEther(c[7]));
+  const raised = parseFloat(ethers.formatEther(c[8]));
+  const progress = goal > 0 ? Math.min((raised/goal)*100, 100).toFixed(0) : 0;
+  const cat = Number(c[5]);
+  const retModel = Number(c[6]);
+  const status = Number(c[14]);
+  const deadline = new Date(Number(c[9])*1000).toLocaleDateString();
+  const months = Number(c[10]);
+  const returnPct = Number(c[11]);
+
+  return `<div class="campaign-card" onclick="openInvestModal(${id})">
+    <div class="campaign-header">
+      <div>
+        <div class="campaign-name">${c[2]}</div>
+        <div class="campaign-location">📍 ${c[4]}</div>
+      </div>
+    </div>
+    <div class="campaign-meta">
+      <span class="badge ${CATEGORY_BADGES[cat]}">${CATEGORIES[cat]}</span>
+      <span class="badge ${STATUS_BADGES[status]}">● ${STATUS_LABELS[status]}</span>
+      <span class="badge ${retModel===0?'b-revenue':'b-fixed'}">${retModel===0?'📊 Revenue Share':'📈 Fixed Return'}</span>
+    </div>
+    <div class="campaign-desc">${c[3]}</div>
+    <div class="progress-wrap">
+      <div class="progress-bar">
+        <div class="progress-fill ${progress>=100?'full':''}" style="width:${progress}%"></div>
+      </div>
+      <div class="progress-stats">
+        <span>${raised.toFixed(4)} ETH raised</span>
+        <span>${progress}% of ${goal} ETH</span>
+      </div>
+    </div>
+    <div class="campaign-footer">
+      <span>⏰ Deadline: ${deadline}</span>
+      <span>📈 ${returnPct}% return / ${months}mo</span>
+      ${status===0?`<button class="invest-btn" onclick="event.stopPropagation();openInvestModal(${id})">Invest →</button>`:''}
+    </div>
+  </div>`;
+}
+
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  filterCampaigns();
+}
+
+function filterCampaigns() {
+  renderCampaigns(allCampaignsCache);
+}
+
+// ── INVEST MODAL ──────────────────────────────────────
+async function openInvestModal(id) {
+  if (!contract) { alert("Connect wallet first!"); return; }
+  currentInvestId = id;
+  try {
+    const c = await contract.getCampaign(id);
+    const goal = parseFloat(ethers.formatEther(c[7]));
+    const raised = parseFloat(ethers.formatEther(c[8]));
+    const remaining = (goal - raised).toFixed(4);
+    const retModel = Number(c[6]);
+    const returnPct = Number(c[11]);
+    const months = Number(c[10]);
+    const deadline = new Date(Number(c[9])*1000).toLocaleDateString();
+
+    document.getElementById("modalTitle").textContent = "Invest in " + c[2];
+    document.getElementById("modalCampaignInfo").innerHTML = `
+      <strong>${c[2]}</strong> — ${c[4]}<br/>
+      ${c[3]}<br/><br/>
+      📍 Goal: ${goal} ETH &nbsp;|&nbsp; Raised: ${raised.toFixed(4)} ETH<br/>
+      ⏰ Deadline: ${deadline}<br/>
+      📈 Return: ${returnPct}% over ${months} months (${retModel===0?'Revenue Share':'Fixed Return'})
+    `;
+    document.getElementById("investReturn").innerHTML =
+      `💡 You will earn <strong>${returnPct}%</strong> return over <strong>${months} months</strong> via ${retModel===0?'monthly revenue share':'fixed installments'}. Max you can invest: <strong>${remaining} ETH</strong>`;
+
+    document.getElementById("investModal").classList.add("show");
+    hideStatus("investStatus");
+    document.getElementById("investAmount").value = "";
+  } catch(e) { console.error(e); }
+}
+
+function closeModal() {
+  document.getElementById("investModal").classList.remove("show");
+  currentInvestId = null;
+}
+
+async function confirmInvest() {
+  if (!contract || currentInvestId === null) return;
+  const amount = document.getElementById("investAmount").value;
+  if (!amount || parseFloat(amount) <= 0) {
+    setStatus("investStatus", "Please enter a valid amount", "error");
+    return;
+  }
+  try {
+    setStatus("investStatus", "⏳ Confirming investment...", "loading");
+    const tx = await contract.invest(currentInvestId, {
+      value: ethers.parseEther(amount)
+    });
+    await tx.wait();
+    setStatus("investStatus", "✅ Investment successful! Welcome to the community.", "success");
+    await loadStats();
+    await loadCampaigns();
+    setTimeout(closeModal, 2000);
+  } catch(e) {
+    setStatus("investStatus", "❌ " + (e.reason || e.message), "error");
+  }
+}
+
+// ── CREATE CAMPAIGN ───────────────────────────────────
+function updateReturnHelp() {
+  const model = document.getElementById("bizReturnModel").value;
+  const label = document.getElementById("returnLabel");
+  const help = document.getElementById("returnHelp");
+  if (model === "0") {
+    label.textContent = "of monthly profit";
+    help.innerHTML = '📊 <strong>Revenue Share:</strong> You share a percentage of your monthly profit with investors every month for the repayment duration.';
+  } else {
+    label.textContent = "fixed interest total";
+    help.innerHTML = '📈 <strong>Fixed Return:</strong> You pay back the principal amount plus this fixed percentage spread over the repayment months.';
+  }
+}
+
+async function createCampaign() {
+  if (!contract) { alert("Connect wallet first!"); return; }
+  const name = document.getElementById("bizName").value;
+  const desc = document.getElementById("bizDesc").value;
+  const loc = document.getElementById("bizLocation").value;
+  const cat = document.getElementById("bizCategory").value;
+  const model = document.getElementById("bizReturnModel").value;
+  const goal = document.getElementById("bizGoal").value;
+  const returnPct = document.getElementById("bizReturn").value;
+  const deadline = document.getElementById("bizDeadline").value;
+  const months = document.getElementById("bizMonths").value;
+
+  if (!name||!desc||!loc||!goal||!returnPct||!deadline||!months) {
+    setStatus("createStatus", "❌ Please fill in all fields", "error");
+    return;
+  }
+
+  try {
+    setStatus("createStatus", "⏳ Creating your campaign...", "loading");
+    const tx = await contract.createCampaign(
+      name, desc, loc,
+      parseInt(cat),
+      parseInt(model),
+      ethers.parseEther(goal),
+      parseInt(deadline),
+      parseInt(months),
+      parseInt(returnPct)
+    );
+    await tx.wait();
+    setStatus("createStatus", "🎉 Campaign created! Share it with your community to start raising.", "success");
+    await loadStats();
+    await loadCampaigns();
+  } catch(e) {
+    setStatus("createStatus", "❌ " + (e.reason || e.message), "error");
+  }
+}
+
+// ── PORTFOLIO ─────────────────────────────────────────
+async function loadPortfolio() {
+  if (!contract || !userAddress) return;
+  try {
+    // Investor portfolio
+    const portfolioIds = await contract.getInvestorPortfolio(userAddress);
+    const portfolioDiv = document.getElementById("portfolioContent");
+
+    if (portfolioIds.length === 0) {
+      portfolioDiv.innerHTML = '<div class="empty"><div class="empty-icon">💼</div><h3>No investments yet</h3><p>Browse campaigns and invest in local businesses.</p></div>';
+    } else {
+      let html = "";
+      for (const id of portfolioIds) {
+        const c = await contract.getCampaign(Number(id));
+        const inv = await contract.getInvestment(Number(id), userAddress);
+        const progress = await contract.getRepaymentProgress(Number(id));
+        const goal = parseFloat(ethers.formatEther(c[7]));
+        const invested = parseFloat(ethers.formatEther(inv[1]));
+        const earned = parseFloat(ethers.formatEther(inv[3]));
+        const share = (Number(inv[2]) / 100).toFixed(2);
+        const status = Number(c[14]);
+
+        html += `<div class="portfolio-item">
+          <div class="portfolio-header">
+            <div class="portfolio-name">${c[2]}</div>
+            <span class="badge ${STATUS_BADGES[status]}">${STATUS_LABELS[status]}</span>
+          </div>
+          <div class="text-muted" style="font-size:12px;margin-bottom:10px">📍 ${c[4]} &nbsp;|&nbsp; Campaign #${id}</div>
+          <div class="progress-bar" style="margin-bottom:8px">
+            <div class="progress-fill" style="width:${progress}%;background:var(--green)"></div>
+          </div>
+          <div class="text-muted" style="font-size:12px;margin-bottom:10px">${progress}% repaid</div>
+          <div class="portfolio-stats">
+            <div class="portfolio-stat">
+              <div class="portfolio-stat-value">${invested.toFixed(4)}</div>
+              <div class="portfolio-stat-label">ETH Invested</div>
+            </div>
+            <div class="portfolio-stat">
+              <div class="portfolio-stat-value">${share}%</div>
+              <div class="portfolio-stat-label">Your Share</div>
+            </div>
+            <div class="portfolio-stat">
+              <div class="portfolio-stat-value text-green">${earned.toFixed(4)}</div>
+              <div class="portfolio-stat-label">ETH Earned</div>
+            </div>
+          </div>
+        </div>`;
+      }
+      portfolioDiv.innerHTML = html;
+    }
+
+    // Business campaigns
+    const bizIds = await contract.getBusinessCampaigns(userAddress);
+    const bizDiv = document.getElementById("myBusinessContent");
+    const profile = await contract.getBusinessProfile(userAddress);
+
+    if (bizIds.length === 0) {
+      bizDiv.innerHTML = '<div class="empty"><div class="empty-icon">🏪</div><h3>No campaigns yet</h3><p>Go to List Business tab to create your first campaign.</p></div>';
+    } else {
+      let html = `<div style="background:var(--card2);border-radius:10px;padding:14px;margin-bottom:16px">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center">
+          <div><div style="font-size:20px;font-weight:800;color:var(--blue)">${profile[0].toString()}</div><div class="text-muted" style="font-size:12px">Total Raised</div></div>
+          <div><div style="font-size:20px;font-weight:800;color:var(--green)">${profile[2].toString()}</div><div class="text-muted" style="font-size:12px">Completed</div></div>
+          <div><div style="font-size:20px;font-weight:800;color:var(--orange)">${profile[4].toString()}</div><div class="text-muted" style="font-size:12px">Reputation Score</div></div>
+        </div>
+        ${profile[5] ? '<div style="text-align:center;margin-top:10px;color:var(--green);font-size:13px">✅ Verified Business</div>' : ''}
+      </div>`;
+
+      for (const id of bizIds) {
+        const c = await contract.getCampaign(Number(id));
+        const goal = parseFloat(ethers.formatEther(c[7]));
+        const raised = parseFloat(ethers.formatEther(c[8]));
+        const progress = goal > 0 ? Math.min((raised/goal)*100,100).toFixed(0) : 0;
+        const status = Number(c[14]);
+        const installment = status >= 1 && status <= 2
+          ? parseFloat(ethers.formatEther(await contract.getMonthlyInstallment(Number(id)))).toFixed(4)
+          : null;
+
+        html += `<div class="repay-item">
+          <div class="repay-header">
+            <div class="repay-title">${c[2]} — Campaign #${id}</div>
+            <span class="badge ${STATUS_BADGES[status]}">${STATUS_LABELS[status]}</span>
+          </div>
+          <div class="progress-bar" style="margin-bottom:8px">
+            <div class="progress-fill" style="width:${progress}%"></div>
+          </div>
+          <div class="repay-schedule">Raised: ${raised.toFixed(4)} / ${goal} ETH (${progress}%)${installment ? ' &nbsp;|&nbsp; Suggested monthly: ' + installment + ' ETH' : ''}</div>
+          ${status===2||status===1?`<button onclick="showTab('repay');document.getElementById('repayId').value=${id}" style="background:var(--green);color:#000;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer">💸 Make Repayment</button>`:''}
+        </div>`;
+      }
+      bizDiv.innerHTML = html;
+    }
+  } catch(e) { console.error(e); }
+}
+
+// ── REPAYMENT ─────────────────────────────────────────
+async function makeRepayment() {
+  if (!contract) { alert("Connect wallet first!"); return; }
+  const id = document.getElementById("repayId").value;
+  const amount = document.getElementById("repayAmount").value;
+  const note = document.getElementById("repayNote").value;
+
+  if (!id || !amount || !note) {
+    setStatus("repayStatus", "❌ Please fill all fields", "error");
+    return;
+  }
+
+  try {
+    setStatus("repayStatus", "⏳ Processing payment...", "loading");
+    const c = await contract.getCampaign(parseInt(id));
+    const retModel = Number(c[6]);
+
+    let tx;
+    if (retModel === 0) {
+      tx = await contract.distributeRevenue(
+        parseInt(id), note,
+        { value: ethers.parseEther(amount) }
+      );
+    } else {
+      tx = await contract.repayInstallment(
+        parseInt(id), note,
+        { value: ethers.parseEther(amount) }
+      );
+    }
+    await tx.wait();
+    setStatus("repayStatus", "✅ Payment sent to all investors! Your reputation score increased.", "success");
+    await loadStats();
+  } catch(e) {
+    setStatus("repayStatus", "❌ " + (e.reason || e.message), "error");
+  }
+}
+
+async function loadRepayHistory() {
+  if (!contract) { alert("Connect wallet first!"); return; }
+  const id = document.getElementById("historyId").value;
+  const div = document.getElementById("repayHistory");
+  if (!id) { div.innerHTML = '<p class="text-muted">Enter a campaign ID</p>'; return; }
+  try {
+    div.innerHTML = '<div class="loading-spinner">Loading...</div>';
+    const history = await contract.getRepaymentHistory(parseInt(id));
+    if (!history.length) {
+      div.innerHTML = '<div class="empty"><div class="empty-icon">📋</div><h3>No repayments yet</h3></div>';
+      return;
+    }
+    div.innerHTML = history.map((h,i) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--card2);border-radius:8px;margin-bottom:8px">
+        <div>
+          <div style="font-size:14px;font-weight:600">Payment #${i+1}</div>
+          <div style="font-size:12px;color:var(--muted)">${h[2]}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:14px;font-weight:700;color:var(--green)">${parseFloat(ethers.formatEther(h[0])).toFixed(4)} ETH</div>
+          <div style="font-size:11px;color:var(--muted)">${new Date(Number(h[1])*1000).toLocaleDateString()}</div>
+        </div>
+      </div>
+    `).join("");
+  } catch(e) {
+    div.innerHTML = '<p class="text-muted">Error: ' + e.message + '</p>';
+  }
+}
+
+// ── AUTO LOAD ─────────────────────────────────────────
+window.addEventListener("load", async () => {
+  if (window.ethereum && window.ethereum.selectedAddress) {
+    await connectWallet();
+  }
+});
+
+window.ethereum?.on("accountsChanged", () => location.reload());
+window.ethereum?.on("chainChanged", () => location.reload());
+</script>
+</body>
+</html>
