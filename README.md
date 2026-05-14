@@ -38,6 +38,14 @@ Everything is transparent and automatic.
 4. Business repays investors monthly
 5. Platform earns 1.5% fee on successful raises
 
+## V2 Features
+- 🆘 Default Protection — Auto blacklist after 60 days no payment
+- ⭐ Investor Reviews — 1-5 star ratings stored onchain
+- 💬 Campaign Updates — Business posts monthly progress updates
+- 🔄 Early Exit — Investors sell positions in exit marketplace
+- 🎯 Milestone Tracking — Funds released in stages not all at once
+- 💰 Minimum Investment — Prevents spam investments
+
 ## Built With
 - Solidity 0.8.20
 - Hardhat
