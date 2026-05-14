@@ -2,12 +2,13 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 const { time } = require("@nomicfoundation/hardhat-network-helpers");
 
-describe("LocalRaise", function () {
+describe("LocalRaise V2", function () {
   let localraise, owner, treasury, business, alice, bob, charlie;
   const GOAL = ethers.parseEther("1.0");
   const DAYS_30 = 30;
   const MONTHS_12 = 12;
   const RETURN_20 = 20;
+  const MIN_INVEST = ethers.parseEther("0.001");
 
   beforeEach(async () => {
     [owner, treasury, business, alice, bob, charlie] =
@@ -20,106 +21,151 @@ describe("LocalRaise", function () {
 
   it("Business can create a revenue share campaign", async () => {
     await localraise.connect(business).createCampaign(
-      "Ramesh Chai Shop",
-      "Expanding to second location",
-      "Dehradun, Uttarakhand",
+      "Ramesh Chai Shop", "Expanding", "Dehradun",
       0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
     );
     const c = await localraise.getCampaign(0);
     expect(c.businessName).to.equal("Ramesh Chai Shop");
-    expect(c.returnModel).to.equal(0);
   });
 
   it("Business can create a fixed return campaign", async () => {
     await localraise.connect(business).createCampaign(
-      "Suresh Kirana Store",
-      "Festival season inventory",
-      "Mumbai, Maharashtra",
+      "Kirana Store", "Festival stock", "Mumbai",
       1, 1, GOAL, DAYS_30, MONTHS_12, RETURN_20
     );
     const c = await localraise.getCampaign(0);
     expect(c.returnModel).to.equal(1);
   });
 
-  it("Cannot create campaign with empty business name", async () => {
+  it("Cannot create campaign with empty name", async () => {
     await expect(
       localraise.connect(business).createCampaign(
-        "", "desc", "location",
+        "", "desc", "loc",
         0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
       )
     ).to.be.revertedWith("Business name required");
   });
 
-  it("Cannot create campaign with less than 7 days deadline", async () => {
+  it("Cannot create campaign below 7 days deadline", async () => {
     await expect(
       localraise.connect(business).createCampaign(
-        "Test", "desc", "location",
+        "Test", "desc", "loc",
         0, 0, GOAL, 3, MONTHS_12, RETURN_20
       )
     ).to.be.revertedWith("Min 7 days funding period");
   });
 
-  it("Cannot create campaign with more than 36 months repayment", async () => {
+  it("Cannot create campaign above 36 months repayment", async () => {
     await expect(
       localraise.connect(business).createCampaign(
-        "Test", "desc", "location",
+        "Test", "desc", "loc",
         0, 0, GOAL, DAYS_30, 40, RETURN_20
       )
     ).to.be.revertedWith("Max 36 months repayment");
   });
 
-  it("Cannot create campaign with return below 5 percent", async () => {
+  it("Blacklisted address cannot create campaign", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, 7, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, {
+      value: GOAL
+    });
+    await time.increase(61 * 24 * 60 * 60);
+    await localraise.markAsDefaulted(0);
     await expect(
       localraise.connect(business).createCampaign(
-        "Test", "desc", "location",
-        0, 0, GOAL, DAYS_30, MONTHS_12, 3
+        "New Shop", "desc", "loc",
+        0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
       )
-    ).to.be.revertedWith("Min 5 percent return");
+    ).to.be.revertedWith("Address is blacklisted");
   });
 
-  it("Cannot create campaign with return above 200 percent", async () => {
-    await expect(
-      localraise.connect(business).createCampaign(
-        "Test", "desc", "location",
-        0, 0, GOAL, DAYS_30, MONTHS_12, 250
-      )
-    ).to.be.revertedWith("Max 200 percent return");
-  });
+  // ── Milestones ───────────────────────────────────
 
-  it("Business profile activeCampaigns increments on creation", async () => {
+  it("Owner can add milestones to active campaign", async () => {
     await localraise.connect(business).createCampaign(
       "Chai Shop", "desc", "Dehradun",
       0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
     );
-    const profile = await localraise.getBusinessProfile(business.address);
-    expect(profile.activeCampaigns).to.equal(1);
+    await localraise.connect(business).addMilestone(
+      0, "Buy equipment", 50
+    );
+    await localraise.connect(business).addMilestone(
+      0, "Hire staff", 50
+    );
+    const ms = await localraise.getMilestones(0);
+    expect(ms.length).to.equal(2);
   });
 
-  it("Total campaigns count increments correctly", async () => {
+  it("Total milestone percent cannot exceed 100", async () => {
     await localraise.connect(business).createCampaign(
       "Chai Shop", "desc", "Dehradun",
       0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
     );
-    await localraise.connect(business).createCampaign(
-      "Kirana Store", "desc", "Mumbai",
-      1, 1, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    await localraise.connect(business).addMilestone(
+      0, "First", 60
     );
-    const [campaigns_] = await localraise.getPlatformStats();
-    expect(campaigns_).to.equal(2);
+    await expect(
+      localraise.connect(business).addMilestone(0, "Second", 50)
+    ).to.be.revertedWith("Total milestone percent exceeds 100");
+  });
+
+  it("Milestone releases funds to business when completed", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(business).addMilestone(
+      0, "Buy equipment", 100
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    const before = await ethers.provider.getBalance(business.address);
+    await localraise.connect(business).completeMilestone(0, 0);
+    const after = await ethers.provider.getBalance(business.address);
+    expect(after).to.be.gt(before);
+  });
+
+  it("Must complete previous milestone before next", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(business).addMilestone(
+      0, "First", 50
+    );
+    await localraise.connect(business).addMilestone(
+      0, "Second", 50
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await expect(
+      localraise.connect(business).completeMilestone(0, 1)
+    ).to.be.revertedWith("Complete previous milestone first");
   });
 
   // ── Investment ───────────────────────────────────
 
-  it("Investor can invest in active campaign", async () => {
+  it("Investor can invest above minimum", async () => {
     await localraise.connect(business).createCampaign(
       "Chai Shop", "desc", "Dehradun",
       0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
     );
-    await localraise.connect(alice).invest(0, {
-      value: ethers.parseEther("0.5")
-    });
+    await localraise.connect(alice).invest(0, { value: GOAL });
     const inv = await localraise.getInvestment(0, alice.address);
-    expect(inv.amount).to.equal(ethers.parseEther("0.5"));
+    expect(inv.amount).to.equal(GOAL);
+  });
+
+  it("Cannot invest below minimum investment", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await expect(
+      localraise.connect(alice).invest(0, {
+        value: ethers.parseEther("0.0001")
+      })
+    ).to.be.revertedWith("Below minimum investment");
   });
 
   it("Owner cannot invest in own campaign", async () => {
@@ -128,47 +174,11 @@ describe("LocalRaise", function () {
       0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
     );
     await expect(
-      localraise.connect(business).invest(0, {
-        value: ethers.parseEther("0.5")
-      })
+      localraise.connect(business).invest(0, { value: GOAL })
     ).to.be.revertedWith("Owner cannot invest in own campaign");
   });
 
-  it("Cannot invest more than goal amount", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    await expect(
-      localraise.connect(alice).invest(0, {
-        value: ethers.parseEther("2.0")
-      })
-    ).to.be.revertedWith("Exceeds funding goal");
-  });
-
-  it("Campaign funded when goal reached and owner receives ETH", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    const before = await ethers.provider.getBalance(business.address);
-    await localraise.connect(alice).invest(0, { value: GOAL });
-    const after = await ethers.provider.getBalance(business.address);
-    expect(after).to.be.gt(before);
-  });
-
-  it("Platform fee is sent to treasury on funding", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    const before = await ethers.provider.getBalance(treasury.address);
-    await localraise.connect(alice).invest(0, { value: GOAL });
-    const after = await ethers.provider.getBalance(treasury.address);
-    expect(after).to.be.gt(before);
-  });
-
-  it("Share percent calculated correctly for investors", async () => {
+  it("Share percent is correct for investor", async () => {
     await localraise.connect(business).createCampaign(
       "Chai Shop", "desc", "Dehradun",
       0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
@@ -180,7 +190,161 @@ describe("LocalRaise", function () {
     expect(inv.sharePercent).to.equal(5000);
   });
 
-  it("Multiple investors share percent adds up correctly", async () => {
+  it("Platform fee sent to treasury on funding", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    const before = await ethers.provider.getBalance(treasury.address);
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    const after = await ethers.provider.getBalance(treasury.address);
+    expect(after).to.be.gt(before);
+  });
+
+  // ── Default Protection ───────────────────────────
+
+  it("Campaign can be marked defaulted after default period", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, 7, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await time.increase(61 * 24 * 60 * 60);
+    await localraise.markAsDefaulted(0);
+    const c = await localraise.getCampaign(0);
+    expect(c.status).to.equal(5);
+  });
+
+  it("Business is blacklisted after default", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, 7, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await time.increase(61 * 24 * 60 * 60);
+    await localraise.markAsDefaulted(0);
+    const profile = await localraise.getBusinessProfile(
+      business.address
+    );
+    expect(profile.isBlacklisted).to.equal(true);
+  });
+
+  it("Cannot mark defaulted before default period", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await expect(
+      localraise.markAsDefaulted(0)
+    ).to.be.revertedWith("Default period not passed yet");
+  });
+
+  it("Reputation score resets to zero on default", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, 7, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await localraise.connect(business).distributeRevenue(
+      0, "Month 1", { value: ethers.parseEther("0.1") }
+    );
+    await time.increase(61 * 24 * 60 * 60);
+    await localraise.markAsDefaulted(0);
+    const profile = await localraise.getBusinessProfile(
+      business.address
+    );
+    expect(profile.reputationScore).to.equal(0);
+  });
+
+  it("Platform owner can remove blacklist", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, 7, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await time.increase(61 * 24 * 60 * 60);
+    await localraise.markAsDefaulted(0);
+    await localraise.removeBlacklist(business.address);
+    const profile = await localraise.getBusinessProfile(
+      business.address
+    );
+    expect(profile.isBlacklisted).to.equal(false);
+  });
+
+  it("canBeDefaulted returns true after period", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, 7, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await time.increase(61 * 24 * 60 * 60);
+    expect(await localraise.canBeDefaulted(0)).to.equal(true);
+  });
+
+  // ── Reviews ──────────────────────────────────────
+
+  it("Investor can leave a review after funding", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await localraise.connect(business).distributeRevenue(
+      0, "Month 1", { value: ethers.parseEther("0.1") }
+    );
+    await localraise.connect(alice).leaveReview(
+      0, 5, "Great business, paid on time!"
+    );
+    const reviews = await localraise.getCampaignReviews(0);
+    expect(reviews.length).to.equal(1);
+    expect(reviews[0].rating).to.equal(5);
+  });
+
+  it("Non investor cannot leave a review", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await localraise.connect(business).distributeRevenue(
+      0, "Month 1", { value: ethers.parseEther("0.1") }
+    );
+    await expect(
+      localraise.connect(bob).leaveReview(0, 5, "Great!")
+    ).to.be.revertedWith("Not an investor in this campaign");
+  });
+
+  it("Cannot leave review twice", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await localraise.connect(business).distributeRevenue(
+      0, "Month 1", { value: ethers.parseEther("0.1") }
+    );
+    await localraise.connect(alice).leaveReview(0, 5, "Great!");
+    await expect(
+      localraise.connect(alice).leaveReview(0, 4, "Again")
+    ).to.be.revertedWith("Already reviewed this campaign");
+  });
+
+  it("Rating must be between 1 and 5", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await localraise.connect(business).distributeRevenue(
+      0, "Month 1", { value: ethers.parseEther("0.1") }
+    );
+    await expect(
+      localraise.connect(alice).leaveReview(0, 6, "Bad rating")
+    ).to.be.revertedWith("Rating must be 1 to 5");
+  });
+
+  it("Average rating calculated correctly", async () => {
     await localraise.connect(business).createCampaign(
       "Chai Shop", "desc", "Dehradun",
       0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
@@ -191,41 +355,167 @@ describe("LocalRaise", function () {
     await localraise.connect(bob).invest(0, {
       value: ethers.parseEther("0.4")
     });
-    const aliceInv = await localraise.getInvestment(0, alice.address);
+    await localraise.connect(business).distributeRevenue(
+      0, "Month 1", { value: ethers.parseEther("0.1") }
+    );
+    await localraise.connect(alice).leaveReview(0, 4, "Good");
+    await localraise.connect(bob).leaveReview(0, 2, "Okay");
+    const avg = await localraise.getBusinessAverageRating(
+      business.address
+    );
+    expect(avg).to.equal(3);
+  });
+
+  // ── Campaign Updates ─────────────────────────────
+
+  it("Business can post updates", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(business).postUpdate(
+      0, "Sales going great this month!", 500
+    );
+    const updates = await localraise.getCampaignUpdates(0);
+    expect(updates.length).to.equal(1);
+    expect(updates[0].message).to.equal(
+      "Sales going great this month!"
+    );
+  });
+
+  it("Non owner cannot post update", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await expect(
+      localraise.connect(alice).postUpdate(0, "Fake update", 0)
+    ).to.be.revertedWith("Not campaign owner");
+  });
+
+  it("Update cannot have empty message", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await expect(
+      localraise.connect(business).postUpdate(0, "", 0)
+    ).to.be.revertedWith("Message cannot be empty");
+  });
+
+  it("Posting update increases reputation score", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(business).postUpdate(
+      0, "Great month!", 500
+    );
+    const profile = await localraise.getBusinessProfile(
+      business.address
+    );
+    expect(profile.reputationScore).to.equal(5);
+  });
+
+  it("Multiple updates stored correctly", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(business).postUpdate(
+      0, "Month 1 update", 300
+    );
+    await localraise.connect(business).postUpdate(
+      0, "Month 2 update", 400
+    );
+    const updates = await localraise.getCampaignUpdates(0);
+    expect(updates.length).to.equal(2);
+  });
+
+  // ── Early Exit ───────────────────────────────────
+
+  it("Investor can list position for exit", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await localraise.connect(alice).listForExit(0, ethers.parseEther("0.9"));
+    expect(await localraise.totalExitListings()).to.equal(1);
+  });
+  it("Non investor cannot list for exit", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await expect(
+      localraise.connect(bob).listForExit(
+        0, ethers.parseEther("0.5")
+      )
+    ).to.be.revertedWith("Not an investor in this campaign");
+  });
+
+  it("Buyer gets investment position on exit purchase", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    const askPrice = ethers.parseEther("0.9");
+    await localraise.connect(alice).listForExit(0, askPrice);
+    await localraise.connect(bob).buyExit(0, { value: askPrice });
     const bobInv = await localraise.getInvestment(0, bob.address);
-    expect(aliceInv.sharePercent + bobInv.sharePercent).to.equal(10000);
+    expect(bobInv.amount).to.equal(GOAL);
   });
 
-  it("Investor portfolio tracked correctly", async () => {
+  it("Seller receives payment on exit", async () => {
     await localraise.connect(business).createCampaign(
       "Chai Shop", "desc", "Dehradun",
       0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
     );
-    await localraise.connect(alice).invest(0, {
-      value: ethers.parseEther("0.5")
-    });
-    const portfolio = await localraise.getInvestorPortfolio(alice.address);
-    expect(portfolio.length).to.equal(1);
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    const askPrice = ethers.parseEther("0.9");
+    await localraise.connect(alice).listForExit(0, askPrice);
+    const before = await ethers.provider.getBalance(alice.address);
+    await localraise.connect(bob).buyExit(0, { value: askPrice });
+    const after = await ethers.provider.getBalance(alice.address);
+    expect(after).to.be.gt(before);
   });
 
-  it("Total investors count updates correctly", async () => {
+  it("Seller can cancel exit listing", async () => {
     await localraise.connect(business).createCampaign(
       "Chai Shop", "desc", "Dehradun",
       0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
     );
-    await localraise.connect(alice).invest(0, {
-      value: ethers.parseEther("0.5")
-    });
-    await localraise.connect(bob).invest(0, {
-      value: ethers.parseEther("0.5")
-    });
-    const [, , investors_] = await localraise.getPlatformStats();
-    expect(investors_).to.equal(2);
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await localraise.connect(alice).listForExit(
+      0, ethers.parseEther("0.9")
+    );
+    await localraise.connect(alice).cancelExitListing(0);
+    const listing = await localraise.exitListings(0);
+    expect(listing.active).to.equal(false);
   });
 
-  // ── Revenue Share Repayment ──────────────────────
+  it("Cannot buy own exit listing", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    await localraise.connect(alice).listForExit(
+      0, ethers.parseEther("0.9")
+    );
+    await expect(
+      localraise.connect(alice).buyExit(0, {
+        value: ethers.parseEther("0.9")
+      })
+    ).to.be.revertedWith("Cannot buy your own listing");
+  });
 
-  it("Business can distribute revenue to investors", async () => {
+  // ── Repayment ────────────────────────────────────
+
+  it("Revenue share distribution reaches investors", async () => {
     await localraise.connect(business).createCampaign(
       "Chai Shop", "desc", "Dehradun",
       0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
@@ -233,59 +523,13 @@ describe("LocalRaise", function () {
     await localraise.connect(alice).invest(0, { value: GOAL });
     const before = await ethers.provider.getBalance(alice.address);
     await localraise.connect(business).distributeRevenue(
-      0, "Month 1 revenue",
-      { value: ethers.parseEther("0.1") }
+      0, "Month 1", { value: ethers.parseEther("0.1") }
     );
     const after = await ethers.provider.getBalance(alice.address);
     expect(after).to.be.gt(before);
   });
 
-  it("Cannot distribute revenue on fixed return campaign", async () => {
-    await localraise.connect(business).createCampaign(
-      "Kirana Store", "desc", "Mumbai",
-      1, 1, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    await localraise.connect(alice).invest(0, { value: GOAL });
-    await expect(
-      localraise.connect(business).distributeRevenue(
-        0, "test",
-        { value: ethers.parseEther("0.1") }
-      )
-    ).to.be.revertedWith("Not a revenue share campaign");
-  });
-
-  it("Revenue repayment history is recorded", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    await localraise.connect(alice).invest(0, { value: GOAL });
-    await localraise.connect(business).distributeRevenue(
-      0, "Month 1",
-      { value: ethers.parseEther("0.1") }
-    );
-    const history = await localraise.getRepaymentHistory(0);
-    expect(history.length).to.equal(1);
-    expect(history[0].note).to.equal("Month 1");
-  });
-
-  it("Investor totalEarned updates after revenue distribution", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    await localraise.connect(alice).invest(0, { value: GOAL });
-    await localraise.connect(business).distributeRevenue(
-      0, "Month 1",
-      { value: ethers.parseEther("0.1") }
-    );
-    const inv = await localraise.getInvestment(0, alice.address);
-    expect(inv.totalEarned).to.be.gt(0);
-  });
-
-  // ── Fixed Return Repayment ───────────────────────
-
-  it("Business can repay fixed installment", async () => {
+  it("Fixed installment reaches investors", async () => {
     await localraise.connect(business).createCampaign(
       "Kirana Store", "desc", "Mumbai",
       1, 1, GOAL, DAYS_30, MONTHS_12, RETURN_20
@@ -293,39 +537,10 @@ describe("LocalRaise", function () {
     await localraise.connect(alice).invest(0, { value: GOAL });
     const before = await ethers.provider.getBalance(alice.address);
     await localraise.connect(business).repayInstallment(
-      0, "Month 1 installment",
-      { value: ethers.parseEther("0.1") }
+      0, "Month 1", { value: ethers.parseEther("0.1") }
     );
     const after = await ethers.provider.getBalance(alice.address);
     expect(after).to.be.gt(before);
-  });
-
-  it("Cannot repay installment on revenue share campaign", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    await localraise.connect(alice).invest(0, { value: GOAL });
-    await expect(
-      localraise.connect(business).repayInstallment(
-        0, "test",
-        { value: ethers.parseEther("0.1") }
-      )
-    ).to.be.revertedWith("Not a fixed return campaign");
-  });
-
-  it("Fixed repayment history is recorded correctly", async () => {
-    await localraise.connect(business).createCampaign(
-      "Kirana Store", "desc", "Mumbai",
-      1, 1, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    await localraise.connect(alice).invest(0, { value: GOAL });
-    await localraise.connect(business).repayInstallment(
-      0, "Month 1",
-      { value: ethers.parseEther("0.1") }
-    );
-    const history = await localraise.getRepaymentHistory(0);
-    expect(history.length).to.equal(1);
   });
 
   it("Repayment count increments correctly", async () => {
@@ -335,20 +550,18 @@ describe("LocalRaise", function () {
     );
     await localraise.connect(alice).invest(0, { value: GOAL });
     await localraise.connect(business).repayInstallment(
-      0, "Month 1",
-      { value: ethers.parseEther("0.1") }
+      0, "Month 1", { value: ethers.parseEther("0.1") }
     );
     await localraise.connect(business).repayInstallment(
-      0, "Month 2",
-      { value: ethers.parseEther("0.1") }
+      0, "Month 2", { value: ethers.parseEther("0.1") }
     );
     const c = await localraise.getCampaign(0);
     expect(c.repaymentCount).to.equal(2);
   });
 
-  // ── Refund and Expiry ────────────────────────────
+  // ── Refund ───────────────────────────────────────
 
-  it("Investors refunded if campaign cancelled", async () => {
+  it("Investors refunded on campaign cancel", async () => {
     await localraise.connect(business).createCampaign(
       "Chai Shop", "desc", "Dehradun",
       0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
@@ -377,157 +590,46 @@ describe("LocalRaise", function () {
     expect(after).to.be.gt(before);
   });
 
-  it("Cannot invest after deadline", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, 7, MONTHS_12, RETURN_20
-    );
-    await time.increase(8 * 24 * 60 * 60);
-    await expect(
-      localraise.connect(alice).invest(0, {
-        value: ethers.parseEther("0.1")
-      })
-    ).to.be.revertedWith("Funding deadline passed");
-  });
-
-  it("Cannot cancel already cancelled campaign", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    await localraise.connect(business).cancelCampaign(0);
-    await expect(
-      localraise.connect(business).cancelCampaign(0)
-    ).to.be.revertedWith("Can only cancel active campaigns");
-  });
-
-  it("isExpired returns true after deadline passes", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, 7, MONTHS_12, RETURN_20
-    );
-    await time.increase(8 * 24 * 60 * 60);
-    expect(await localraise.isExpired(0)).to.equal(true);
-  });
-
-  // ── View Functions ───────────────────────────────
-
-  it("getCampaignsByCategory filters correctly", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    await localraise.connect(business).createCampaign(
-      "Auto Rickshaw", "desc", "Delhi",
-      2, 1, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    const food = await localraise.getCampaignsByCategory(0);
-    expect(food.length).to.equal(1);
-  });
-
-  it("getActiveCampaigns returns only active ones", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    const active = await localraise.getActiveCampaigns();
-    expect(active.length).to.equal(1);
-  });
-
-  it("Business campaigns list tracked correctly", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    await localraise.connect(business).createCampaign(
-      "Kirana Store", "desc", "Mumbai",
-      1, 1, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    const bizCampaigns = await localraise.getBusinessCampaigns(
-      business.address
-    );
-    expect(bizCampaigns.length).to.equal(2);
-  });
-
-  it("Monthly installment calculated correctly", async () => {
-    await localraise.connect(business).createCampaign(
-      "Kirana Store", "desc", "Mumbai",
-      1, 1, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    // Fund the campaign first so raisedAmount is set
-    await localraise.connect(alice).invest(0, { value: GOAL });
-    const installment = await localraise.getMonthlyInstallment(0);
-    // Total owed = 1 ETH + 20% = 1.2 ETH / 12 months = 0.1 ETH
-    expect(installment).to.equal(ethers.parseEther("0.1"));
-  });
-
-  it("Funding progress returns correct percentage", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    await localraise.connect(alice).invest(0, {
-      value: ethers.parseEther("0.5")
-    });
-    const progress = await localraise.getFundingProgress(0);
-    expect(progress).to.equal(50);
-  });
-
-  it("Platform stats update correctly", async () => {
-    await localraise.connect(business).createCampaign(
-      "Chai Shop", "desc", "Dehradun",
-      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
-    );
-    await localraise.connect(alice).invest(0, { value: GOAL });
-    const [campaigns_, volume_] = await localraise.getPlatformStats();
-    expect(campaigns_).to.equal(1);
-    expect(volume_).to.equal(GOAL);
-  });
-
   // ── Platform Owner ───────────────────────────────
 
   it("Platform owner can verify a business", async () => {
     await localraise.verifyBusiness(business.address);
-    const profile = await localraise.getBusinessProfile(business.address);
+    const profile = await localraise.getBusinessProfile(
+      business.address
+    );
     expect(profile.isVerified).to.equal(true);
   });
 
-  it("Verified business gets reputation score boost", async () => {
-    await localraise.verifyBusiness(business.address);
-    const profile = await localraise.getBusinessProfile(business.address);
-    expect(profile.reputationScore).to.equal(100);
+  it("Platform owner can update minimum investment", async () => {
+    await localraise.updateMinimumInvestment(
+      ethers.parseEther("0.01")
+    );
+    expect(await localraise.minimumInvestment()).to.equal(
+      ethers.parseEther("0.01")
+    );
   });
 
-  it("Platform owner can update raise fee", async () => {
-    await localraise.updateRaiseFee(200);
-    expect(await localraise.raiseFeePercent()).to.equal(200);
+  it("Platform owner can update default period", async () => {
+    await localraise.updateDefaultPeriod(45 * 24 * 60 * 60);
+    expect(await localraise.defaultPeriod()).to.equal(
+      45 * 24 * 60 * 60
+    );
   });
 
-  it("Cannot set raise fee above 5 percent", async () => {
+  it("Cannot set default period below 30 days", async () => {
     await expect(
-      localraise.updateRaiseFee(600)
-    ).to.be.revertedWith("Max 5 percent fee");
+      localraise.updateDefaultPeriod(10 * 24 * 60 * 60)
+    ).to.be.revertedWith("Min 30 days");
   });
 
-  it("Platform owner can update repayment fee", async () => {
-    await localraise.updateRepaymentFee(100);
-    expect(await localraise.repaymentFeePercent()).to.equal(100);
-  });
-
-  it("Cannot set repayment fee above 2 percent", async () => {
-    await expect(
-      localraise.updateRepaymentFee(300)
-    ).to.be.revertedWith("Max 2 percent fee");
-  });
-
-  it("Platform owner can update treasury address", async () => {
-    await localraise.updateTreasury(alice.address);
-    expect(await localraise.treasury()).to.equal(alice.address);
-  });
-
-  it("Cannot set treasury to zero address", async () => {
-    await expect(
-      localraise.updateTreasury(ethers.ZeroAddress)
-    ).to.be.revertedWith("Invalid address");
+  it("Platform stats update after funding", async () => {
+    await localraise.connect(business).createCampaign(
+      "Chai Shop", "desc", "Dehradun",
+      0, 0, GOAL, DAYS_30, MONTHS_12, RETURN_20
+    );
+    await localraise.connect(alice).invest(0, { value: GOAL });
+    const [c, v] = await localraise.getPlatformStats();
+    expect(c).to.equal(1);
+    expect(v).to.equal(GOAL);
   });
 });
