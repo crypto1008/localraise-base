@@ -8,7 +8,7 @@ Fund local businesses. Earn real returns. No banks needed.
 0xYOUR_CONTRACT_ADDRESS
 
 ## Basescan
-https://basescan.org/address/0xYOUR_CONTRACT_ADDRESS
+https://basescan.org/address/0x93D50E14d2D269b594997677bEa46B766DD9A7ED
 
 ## The Problem
 500 million small businesses globally need funding.
