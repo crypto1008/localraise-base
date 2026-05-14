@@ -1,0 +1,19 @@
+{
+  "network": "Base Mainnet",
+  "chainId": 8453,
+  "versions": {
+    "v1.0.0": {
+      "features": ["create", "invest", "repay", "refund"]
+    },
+    "v2.0.0": {
+      "features": [
+        "default protection",
+        "reviews",
+        "updates",
+        "early exit",
+        "milestones",
+        "minimum investment"
+      ]
+    }
+  }
+}
