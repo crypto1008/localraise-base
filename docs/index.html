@@ -3,92 +3,71 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>LocalRaise — Fund Local Businesses on Base</title>
-<meta name="description" content="Micro-investment platform for local businesses. Fund a chai shop, earn real returns. No banks. No middlemen. Built on Base."/>
+<title>LocalRaise — Fund Local Businesses on Base | Community Investment Platform India</title>
+<meta name="description" content="LocalRaise lets Indian small businesses raise funds from their community on Base blockchain. Investors earn real returns. No banks. No middlemen. Auto-refund if goal not met."/>
+<meta name="keywords" content="local business funding india, micro investment platform india, fund small business without bank loan, base blockchain india, community investment india"/>
+<meta property="og:title" content="LocalRaise — Fund Local Businesses. Earn Real Returns."/>
+<meta property="og:description" content="Community micro-investment for Indian small businesses. No bank needed. Deployed on Base."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://crypto1008.github.io/localraise-base/"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --blue:#0052ff;
-  --blue-dark:#003ecc;
-  --blue-bg:#eff4ff;
-  --green:#16a34a;
-  --green-bg:#f0fdf4;
-  --amber:#d97706;
-  --amber-bg:#fffbeb;
-  --red:#dc2626;
-  --red-bg:#fef2f2;
-  --gray-50:#f9fafb;
-  --gray-100:#f3f4f6;
-  --gray-200:#e5e7eb;
-  --gray-300:#d1d5db;
-  --gray-400:#9ca3af;
-  --gray-500:#6b7280;
-  --gray-600:#4b5563;
-  --gray-700:#374151;
-  --gray-800:#1f2937;
-  --gray-900:#111827;
-  --white:#ffffff;
-  --font:'Plus Jakarta Sans',sans-serif;
-  --radius:10px;
-  --radius-lg:16px;
-  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
-  --shadow-md:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.06);
-  --shadow-lg:0 10px 15px rgba(0,0,0,.08),0 4px 6px rgba(0,0,0,.05);
+  --blue:#0052ff;--blue-dark:#003ecc;--blue-bg:#eff4ff;
+  --green:#16a34a;--green-bg:#f0fdf4;
+  --amber:#d97706;--amber-bg:#fffbeb;
+  --red:#dc2626;--red-bg:#fef2f2;
+  --orange:#ea580c;--orange-bg:#fff7ed;
+  --gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;
+  --gray-300:#d1d5db;--gray-400:#9ca3af;--gray-500:#6b7280;
+  --gray-600:#4b5563;--gray-700:#374151;--gray-800:#1f2937;--gray-900:#111827;
+  --white:#ffffff;--font:'Plus Jakarta Sans',sans-serif;
+  --radius:10px;--radius-lg:16px;
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--font);background:var(--white);color:var(--gray-900);line-height:1.6;-webkit-font-smoothing:antialiased}
-
-/* ── NAV ── */
 nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--gray-200);height:64px;display:flex;align-items:center;padding:0 24px}
-.nav-inner{max-width:1140px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-inner{max-width:1140px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
 .nav-logo-mark{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center}
 .nav-logo-mark svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.nav-logo-text{font-size:17px;font-weight:800;color:var(--gray-900);letter-spacing:-.3px}
+.nav-logo-text{font-size:17px;font-weight:800;color:var(--gray-900)}
 .nav-links{display:flex;align-items:center;gap:4px}
-.nav-link{padding:6px 14px;border-radius:8px;font-size:14px;font-weight:500;color:var(--gray-600);text-decoration:none;cursor:pointer;border:none;background:none;transition:all .15s}
+.nav-link{padding:6px 14px;border-radius:8px;font-size:14px;font-weight:500;color:var(--gray-600);text-decoration:none;cursor:pointer;border:none;background:none;font-family:var(--font);transition:all .15s}
 .nav-link:hover,.nav-link.active{color:var(--gray-900);background:var(--gray-100)}
-.nav-right{display:flex;align-items:center;gap:10px}
+.nav-right{display:flex;align-items:center;gap:8px}
+.eth-price-pill{font-size:12px;font-weight:600;color:var(--gray-600);background:var(--gray-100);padding:5px 10px;border-radius:20px;border:1px solid var(--gray-200);white-space:nowrap}
 .wallet-pill{font-size:13px;font-weight:600;color:var(--gray-700);background:var(--gray-100);padding:6px 12px;border-radius:20px;border:1px solid var(--gray-200)}
 .btn-nav{background:var(--blue);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);transition:background .15s}
 .btn-nav:hover{background:var(--blue-dark)}
-
-/* ── HERO ── */
 .hero{background:linear-gradient(180deg,var(--blue-bg) 0%,var(--white) 100%);padding:72px 24px 56px;text-align:center;border-bottom:1px solid var(--gray-200)}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--white);border:1px solid var(--gray-200);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--blue);margin-bottom:24px}
 .hero-badge-dot{width:6px;height:6px;background:var(--blue);border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.hero h1{font-size:clamp(32px,5vw,56px);font-weight:800;line-height:1.1;letter-spacing:-1.5px;color:var(--gray-900);margin-bottom:18px;max-width:780px;margin-left:auto;margin-right:auto}
+.hero h1{font-size:clamp(30px,5vw,54px);font-weight:800;line-height:1.1;letter-spacing:-1.5px;color:var(--gray-900);margin-bottom:10px;max-width:780px;margin-left:auto;margin-right:auto}
 .hero h1 span{color:var(--blue)}
-.hero p{font-size:18px;color:var(--gray-600);max-width:560px;margin:0 auto 32px;line-height:1.65;font-weight:400}
+.hero-hindi{font-size:clamp(15px,2.5vw,20px);color:var(--gray-500);font-weight:500;margin-bottom:16px}
+.hero p{font-size:18px;color:var(--gray-600);max-width:560px;margin:0 auto 32px;line-height:1.65}
 .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
 .btn-primary{background:var(--blue);color:#fff;border:none;padding:13px 28px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .15s;display:inline-flex;align-items:center;gap:6px}
 .btn-primary:hover{background:var(--blue-dark);transform:translateY(-1px)}
-.btn-secondary{background:var(--white);color:var(--gray-800);border:1.5px solid var(--gray-300);padding:13px 28px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-secondary{background:var(--white);color:var(--gray-800);border:1.5px solid var(--gray-300);padding:13px 28px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .15s}
 .btn-secondary:hover{border-color:var(--blue);color:var(--blue)}
-.trust-row{display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap}
+.trust-row{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap}
 .trust-item{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--gray-500)}
-.trust-icon{color:var(--green);font-size:15px}
-
-/* ── STATS BAR ── */
+.trust-icon{color:var(--green)}
 .stats-bar{background:var(--white);border-bottom:1px solid var(--gray-200)}
-.stats-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);padding:0}
-.stat-item{padding:24px 32px;border-right:1px solid var(--gray-200);text-align:center}
+.stats-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);padding:0}
+.stat-item{padding:20px 24px;border-right:1px solid var(--gray-200);text-align:center}
 .stat-item:last-child{border-right:none}
-.stat-val{font-size:28px;font-weight:800;color:var(--gray-900);letter-spacing:-1px;margin-bottom:4px}
-.stat-label{font-size:13px;color:var(--gray-500);font-weight:500}
-
-/* ── MAIN LAYOUT ── */
+.stat-val{font-size:24px;font-weight:800;color:var(--gray-900);letter-spacing:-1px;margin-bottom:3px}
+.stat-label{font-size:12px;color:var(--gray-500);font-weight:500}
 .main-wrap{max-width:1140px;margin:0 auto;padding:40px 24px}
-
-/* ── SECTION HEADER ── */
 .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
 .section-title{font-size:20px;font-weight:800;color:var(--gray-900);letter-spacing:-.3px}
 .section-sub{font-size:14px;color:var(--gray-500);margin-top:2px}
-
-/* ── FILTER BAR ── */
 .filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:24px}
 .filter-pill{padding:7px 16px;border-radius:20px;border:1.5px solid var(--gray-200);background:var(--white);color:var(--gray-600);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;font-family:var(--font)}
 .filter-pill:hover{border-color:var(--blue);color:var(--blue)}
@@ -96,17 +75,14 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-
 .search-box{flex:1;min-width:200px;max-width:280px;position:relative}
 .search-box input{width:100%;padding:8px 14px 8px 36px;border:1.5px solid var(--gray-200);border-radius:20px;font-size:13px;font-family:var(--font);color:var(--gray-800);outline:none;transition:border .15s}
 .search-box input:focus{border-color:var(--blue)}
-.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--gray-400);font-size:14px}
-
-/* ── CAMPAIGN CARDS ── */
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--gray-400)}
 .campaign-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
-.campaign-card{background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:22px;cursor:pointer;transition:all .18s;position:relative}
-.campaign-card:hover{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,82,255,.06),var(--shadow-md);transform:translateY(-2px)}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-.card-biz{font-size:16px;font-weight:700;color:var(--gray-900);line-height:1.3;margin-bottom:3px}
-.card-loc{font-size:12px;color:var(--gray-500);font-weight:500}
+.campaign-card{background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:22px;cursor:pointer;transition:all .18s}
+.campaign-card:hover{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,82,255,.06);transform:translateY(-2px)}
+.card-biz{font-size:16px;font-weight:700;color:var(--gray-900);margin-bottom:3px}
+.card-loc{font-size:12px;color:var(--gray-500);margin-bottom:10px}
 .badges{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
-.badge{display:inline-block;padding:3px 9px;border-radius:12px;font-size:11px;font-weight:700;letter-spacing:.2px}
+.badge{display:inline-block;padding:3px 9px;border-radius:12px;font-size:11px;font-weight:700}
 .b-food{background:#fff7ed;color:#c2410c}
 .b-retail{background:var(--blue-bg);color:var(--blue-dark)}
 .b-transport{background:#f5f3ff;color:#6d28d9}
@@ -118,36 +94,30 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-
 .b-defaulted{background:var(--red-bg);color:var(--red)}
 .b-revenue{background:#fdf4ff;color:#7e22ce}
 .b-fixed{background:#fffbeb;color:#b45309}
-.card-desc{font-size:13px;color:var(--gray-600);margin-bottom:14px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.progress-wrap{margin-bottom:12px}
-.progress-bar{height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden}
+.card-desc{font-size:13px;color:var(--gray-600);margin-bottom:12px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.progress-bar{height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden;margin-bottom:5px}
 .progress-fill{height:100%;background:var(--blue);border-radius:3px;transition:width .5s}
 .progress-fill.done{background:var(--green)}
-.progress-row{display:flex;justify-content:space-between;font-size:12px;color:var(--gray-500);margin-top:5px;font-weight:500}
-.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--gray-100);font-size:12px;color:var(--gray-500)}
-.invest-btn{background:var(--blue);color:#fff;border:none;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);transition:background .15s}
+.progress-row{display:flex;justify-content:space-between;font-size:12px;color:var(--gray-500);margin-bottom:8px}
+.inr-big{font-weight:700;color:var(--gray-800);font-size:13px}
+.card-meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--gray-500);margin-bottom:10px;align-items:center}
+.countdown{font-size:12px;font-weight:600;padding:3px 8px;border-radius:8px;background:var(--orange-bg);color:var(--orange)}
+.countdown.urgent{background:var(--red-bg);color:var(--red)}
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--gray-100);gap:6px;flex-wrap:wrap}
+.card-actions{display:flex;gap:6px;align-items:center}
+.invest-btn{background:var(--blue);color:#fff;border:none;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font)}
 .invest-btn:hover{background:var(--blue-dark)}
+.whatsapp-btn{background:#25D366;color:#fff;border:none;padding:7px 11px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.whatsapp-btn:hover{opacity:.88}
 .empty-state{text-align:center;padding:72px 20px;color:var(--gray-400)}
 .empty-icon{font-size:40px;margin-bottom:12px}
 .empty h3{font-size:17px;font-weight:700;color:var(--gray-600);margin-bottom:6px}
-.empty p{font-size:14px}
-
-/* ── HOW IT WORKS ── */
 .how-section{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:36px;margin-top:40px}
 .how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}
 .how-step{text-align:center}
 .how-num{width:40px;height:40px;background:var(--blue);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;margin:0 auto 14px}
 .how-title{font-size:15px;font-weight:700;color:var(--gray-900);margin-bottom:7px}
 .how-desc{font-size:13px;color:var(--gray-600);line-height:1.6}
-
-/* ── TABS ── */
-.tab-row{display:flex;border-bottom:2px solid var(--gray-200);margin-bottom:28px;gap:0;overflow-x:auto}
-.tab-btn{padding:12px 20px;font-size:14px;font-weight:600;color:var(--gray-500);cursor:pointer;border:none;background:none;font-family:var(--font);border-bottom:2.5px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .15s}
-.tab-btn:hover{color:var(--gray-800)}
-.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
-.panel{display:none}.panel.active{display:block}
-
-/* ── FORM ── */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .form-card{background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:28px}
 .form-card h3{font-size:17px;font-weight:800;color:var(--gray-900);margin-bottom:20px}
@@ -157,20 +127,16 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-
 .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--blue)}
 .form-textarea{resize:vertical;min-height:80px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.return-info{background:var(--blue-bg);border:1px solid #c7d7ff;border-radius:8px;padding:12px 14px;font-size:13px;color:var(--blue-dark);margin-bottom:16px;line-height:1.55}
-.btn-submit{width:100%;background:var(--blue);color:#fff;border:none;padding:13px;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .15s}
+.inr-convert-hint{font-size:12px;color:var(--blue);margin-top:5px;font-weight:600;min-height:18px}
+.return-info{background:var(--blue-bg);border:1px solid #c7d7ff;border-radius:8px;padding:12px 14px;font-size:13px;color:#1e3a8a;margin-bottom:16px;line-height:1.55}
+.btn-submit{width:100%;background:var(--blue);color:#fff;border:none;padding:13px;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font)}
 .btn-submit:hover{background:var(--blue-dark)}
-.btn-outline{width:100%;background:var(--white);color:var(--gray-700);border:1.5px solid var(--gray-300);padding:12px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s;margin-top:8px}
-.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
-
-/* ── STATUS MESSAGES ── */
 .status-box{margin-top:12px;padding:11px 14px;border-radius:8px;font-size:13px;font-weight:500;display:none}
 .status-box.show{display:block}
 .status-box.success{background:var(--green-bg);color:#166534;border:1px solid #86efac}
 .status-box.error{background:var(--red-bg);color:#991b1b;border:1px solid #fca5a5}
-.status-box.loading{background:var(--blue-bg);color:var(--blue-dark);border:1px solid #bfdbfe}
-
-/* ── PORTFOLIO ── */
+.status-box.loading{background:var(--blue-bg);color:#1e3a8a;border:1px solid #bfdbfe}
+.tax-banner{background:var(--orange-bg);border:1px solid #fed7aa;border-radius:8px;padding:10px 14px;font-size:12px;color:#9a3412;margin-bottom:14px;line-height:1.6}
 .portfolio-card{background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:20px;margin-bottom:14px}
 .portfolio-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
 .portfolio-name{font-size:15px;font-weight:700;color:var(--gray-900)}
@@ -178,8 +144,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-
 .p-stat{background:var(--gray-50);border-radius:8px;padding:10px;text-align:center}
 .p-stat-val{font-size:16px;font-weight:800;color:var(--blue)}
 .p-stat-label{font-size:11px;color:var(--gray-500);font-weight:500;margin-top:2px}
-
-/* ── REPAY ── */
 .repay-card{background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:24px;margin-bottom:20px}
 .repay-card h3{font-size:16px;font-weight:800;color:var(--gray-900);margin-bottom:6px}
 .repay-desc{font-size:13px;color:var(--gray-600);margin-bottom:20px;line-height:1.55}
@@ -188,56 +152,47 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-
 .history-note{font-size:13px;color:var(--gray-700)}
 .history-date{font-size:11px;color:var(--gray-500);margin-top:2px}
 .history-amount{font-size:14px;font-weight:700;color:var(--green)}
-
-/* ── MODAL ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.open{display:flex}
-.modal{background:var(--white);border-radius:var(--radius-lg);padding:28px;max-width:460px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);border:1px solid var(--gray-200)}
+.modal{background:var(--white);border-radius:var(--radius-lg);padding:28px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
 .modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
 .modal-title{font-size:18px;font-weight:800;color:var(--gray-900);padding-right:12px}
-.modal-close{background:var(--gray-100);border:none;width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:16px;color:var(--gray-600);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.modal-close{background:var(--gray-100);border:none;width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:16px;color:var(--gray-600);display:flex;align-items:center;justify-content:center}
 .modal-close:hover{background:var(--gray-200)}
-.campaign-info-box{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;padding:14px;margin-bottom:18px;font-size:13px;color:var(--gray-700);line-height:1.6}
+.campaign-info-box{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;padding:14px;margin-bottom:14px;font-size:13px;color:var(--gray-700);line-height:1.6}
 .campaign-info-box strong{font-weight:700;color:var(--gray-900);display:block;margin-bottom:4px;font-size:14px}
-.return-preview{background:var(--blue-bg);border:1px solid #bfdbfe;border-radius:8px;padding:12px 14px;font-size:13px;color:var(--blue-dark);margin-bottom:18px;line-height:1.55}
-.warning-box{background:var(--amber-bg);border:1px solid #fcd34d;border-radius:8px;padding:11px 14px;font-size:12px;color:#92400e;margin-bottom:16px}
-
-/* ── NOTIFICATION TOAST ── */
+.inr-calc-box{background:var(--green-bg);border:1px solid #86efac;border-radius:8px;padding:14px;margin-bottom:14px}
+.inr-calc-title{font-size:12px;font-weight:700;color:#166534;margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px}
+.inr-calc-row{display:flex;justify-content:space-between;font-size:13px;color:var(--gray-700);margin-bottom:4px}
+.inr-calc-row strong{font-weight:700;color:var(--gray-900)}
+.inr-calc-row.tax-row{color:var(--orange);font-size:12px}
+.inr-calc-row.net-row{color:var(--green);font-weight:700;font-size:14px;border-top:1px solid #86efac;padding-top:6px;margin-top:4px}
+.warning-box{background:var(--amber-bg);border:1px solid #fcd34d;border-radius:8px;padding:11px 14px;font-size:12px;color:#92400e;margin-bottom:14px}
+.invest-dual{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.connect-wall{text-align:center;padding:60px 20px;background:var(--gray-50);border:1.5px dashed var(--gray-300);border-radius:var(--radius-lg)}
+.connect-wall h3{font-size:17px;font-weight:700;color:var(--gray-700);margin-bottom:8px}
+.connect-wall p{font-size:14px;color:var(--gray-500);margin-bottom:20px}
+.spinner{text-align:center;padding:48px;color:var(--gray-400);font-size:14px}
+.spinner-circle{width:32px;height:32px;border:3px solid var(--gray-200);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
 .toast{position:fixed;bottom:24px;right:24px;background:var(--gray-900);color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;z-index:300;transform:translateY(80px);opacity:0;transition:all .3s;max-width:320px}
 .toast.show{transform:translateY(0);opacity:1}
-
-/* ── FOOTER ── */
 footer{background:var(--gray-900);color:var(--gray-400);padding:40px 24px;margin-top:72px}
 .footer-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}
 .footer-brand{font-size:20px;font-weight:800;color:#fff;margin-bottom:10px}
 .footer-tagline{font-size:13px;line-height:1.6}
-.footer-col-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;letter-spacing:.3px}
-.footer-link{display:block;font-size:13px;color:var(--gray-400);text-decoration:none;margin-bottom:8px;transition:color .15s}
+.footer-col-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:12px}
+.footer-link{display:block;font-size:13px;color:var(--gray-400);text-decoration:none;margin-bottom:8px;cursor:pointer;transition:color .15s}
 .footer-link:hover{color:#fff}
 .footer-bottom{max-width:1140px;margin:28px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:12px}
-
-/* ── CONNECT WALL ── */
-.connect-wall{text-align:center;padding:60px 20px;background:var(--gray-50);border:1.5px dashed var(--gray-300);border-radius:var(--radius-lg)}
-.connect-wall h3{font-size:17px;font-weight:700;color:var(--gray-700);margin-bottom:8px}
-.connect-wall p{font-size:14px;color:var(--gray-500);margin-bottom:20px}
-
-/* ── VERIFIED BADGE ── */
-.verified{display:inline-flex;align-items:center;gap:4px;background:var(--green-bg);color:var(--green);font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px}
-
-/* ── LOADING SPINNER ── */
-.spinner{text-align:center;padding:48px;color:var(--gray-400);font-size:14px}
-.spinner-circle{width:32px;height:32px;border:3px solid var(--gray-200);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* ── RESPONSIVE ── */
 @media(max-width:768px){
-  .nav-links{display:none}
-  .hero h1{font-size:30px}
-  .hero p{font-size:16px}
-  .stats-inner{grid-template-columns:1fr}
-  .stat-item{border-right:none;border-bottom:1px solid var(--gray-200);padding:18px 24px}
-  .how-grid{grid-template-columns:1fr}
-  .form-grid,.form-row{grid-template-columns:1fr}
+  .nav-links{display:none}.eth-price-pill{display:none}
+  .hero h1{font-size:28px}.hero p{font-size:15px}
+  .stats-inner{grid-template-columns:1fr 1fr}
+  .stat-item:nth-child(2){border-right:none}
+  .stat-item:nth-child(3){border-top:1px solid var(--gray-200)}
+  .stat-item:nth-child(4){border-top:1px solid var(--gray-200);border-right:none}
+  .how-grid,.form-grid,.form-row,.invest-dual{grid-template-columns:1fr}
   .footer-inner{grid-template-columns:1fr}
   .campaign-grid{grid-template-columns:1fr}
 }
@@ -245,13 +200,10 @@ footer{background:var(--gray-900);color:var(--gray-400);padding:40px 24px;margin
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-inner">
     <a class="nav-logo" href="#">
-      <div class="nav-logo-mark">
-        <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-      </div>
+      <div class="nav-logo-mark"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
       <span class="nav-logo-text">LocalRaise</span>
     </a>
     <div class="nav-links">
@@ -259,53 +211,42 @@ footer{background:var(--gray-900);color:var(--gray-400);padding:40px 24px;margin
       <button class="nav-link" onclick="showSection('create')">List Business</button>
       <button class="nav-link" onclick="showSection('portfolio')">My Portfolio</button>
       <button class="nav-link" onclick="showSection('repay')">Repay</button>
+      <a class="nav-link" href="blog/">Blog</a>
     </div>
     <div class="nav-right">
+      <span class="eth-price-pill" id="ethLivePrice">Loading…</span>
       <span class="wallet-pill" id="walletPill" style="display:none"></span>
       <button class="btn-nav" onclick="connectWallet()" id="connectBtn">Connect Wallet</button>
     </div>
   </div>
 </nav>
 
-<!-- HERO -->
-<div class="hero" id="heroSection">
-  <div class="hero-badge">
-    <span class="hero-badge-dot"></span>
-    Live on Base Mainnet
-  </div>
+<div class="hero">
+  <div class="hero-badge"><span class="hero-badge-dot"></span>Live on Base Mainnet</div>
   <h1>Fund Local Businesses.<br/><span>Earn Real Returns.</span></h1>
-  <p>The community micro-investment platform built on Base. No banks. No middlemen. Just transparent, onchain funding for real businesses near you.</p>
+  <div class="hero-hindi">अपने लोकल बिज़नेस में निवेश करें। असली रिटर्न कमाएं।</div>
+  <p>The community micro-investment platform built on Base. No banks. No middlemen. Just transparent, onchain funding for real businesses.</p>
   <div class="hero-btns">
     <button class="btn-primary" onclick="showSection('browse')">Browse Campaigns ↗</button>
     <button class="btn-secondary" onclick="showSection('create')">List Your Business</button>
   </div>
   <div class="trust-row">
-    <div class="trust-item"><span class="trust-icon">✓</span> Funds auto-refunded if goal not reached</div>
-    <div class="trust-item"><span class="trust-icon">✓</span> 100% transparent onchain</div>
-    <div class="trust-item"><span class="trust-icon">✓</span> Smart contract audited &amp; verified</div>
-    <div class="trust-item"><span class="trust-icon">✓</span> Deployed on Base — $0.01 gas</div>
+    <div class="trust-item"><span class="trust-icon">✓</span>Auto-refund if goal not reached</div>
+    <div class="trust-item"><span class="trust-icon">✓</span>100% transparent onchain</div>
+    <div class="trust-item"><span class="trust-icon">✓</span>Smart contract verified on Basescan</div>
+    <div class="trust-item"><span class="trust-icon">✓</span>Deployed on Base — ₹1 gas fees</div>
   </div>
 </div>
 
-<!-- STATS BAR -->
 <div class="stats-bar">
   <div class="stats-inner">
-    <div class="stat-item">
-      <div class="stat-val" id="statCampaigns">—</div>
-      <div class="stat-label">Total campaigns</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-val" id="statVolume">—</div>
-      <div class="stat-label">ETH funded on-platform</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-val" id="statInvestors">—</div>
-      <div class="stat-label">Unique investors</div>
-    </div>
+    <div class="stat-item"><div class="stat-val" id="statCampaigns">—</div><div class="stat-label">Total campaigns</div></div>
+    <div class="stat-item"><div class="stat-val" id="statVolume">—</div><div class="stat-label">ETH funded</div></div>
+    <div class="stat-item"><div class="stat-val" id="statVolumeInr">—</div><div class="stat-label">Approx. ₹ funded</div></div>
+    <div class="stat-item"><div class="stat-val" id="statInvestors">—</div><div class="stat-label">Unique investors</div></div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <!-- INVEST MODAL -->
@@ -316,231 +257,166 @@ footer{background:var(--gray-900);color:var(--gray-400);padding:40px 24px;margin
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
     <div class="campaign-info-box" id="modalCampaignInfo"></div>
-    <div class="warning-box">⚠️ Only invest what you can afford to hold for the repayment period. This is an early-stage platform — invest responsibly.</div>
+    <div class="tax-banner">⚠️ <strong>India Tax:</strong> Crypto gains are taxed at 30% flat under Indian law. The calculator below shows your estimated net return after tax. Please consult a tax advisor.</div>
+    <div class="warning-box">⚠️ Invest only what you can afford to hold for the full repayment period. Crypto investments carry risk.</div>
     <div class="form-group">
-      <label class="form-label">Investment Amount (ETH)</label>
-      <input class="form-input" type="number" id="investAmount" placeholder="Min 0.001 ETH" step="0.001" min="0.001" oninput="updateReturnCalc()"/>
+      <label class="form-label">Investment Amount</label>
+      <div class="invest-dual">
+        <div>
+          <input class="form-input" type="number" id="investAmtInr" placeholder="₹ Rupees (e.g. 5000)" step="100" min="250" oninput="onInrChange()"/>
+          <div style="font-size:11px;color:var(--gray-500);margin-top:4px">Enter in Rupees ₹</div>
+        </div>
+        <div>
+          <input class="form-input" type="number" id="investAmount" placeholder="ETH (e.g. 0.002)" step="0.001" min="0.001" oninput="onEthChange()" style="background:var(--gray-50)"/>
+          <div style="font-size:11px;color:var(--gray-500);margin-top:4px">Or enter in ETH</div>
+        </div>
+      </div>
     </div>
-    <div class="return-preview" id="returnPreview" style="display:none"></div>
+    <div class="inr-calc-box" id="returnCalcBox" style="display:none">
+      <div class="inr-calc-title">Return Calculator</div>
+      <div class="inr-calc-row"><span>You invest</span><strong id="calcInvested">—</strong></div>
+      <div class="inr-calc-row"><span>Gross return (<span id="calcRetPct">—</span>%)</span><strong id="calcGross">—</strong></div>
+      <div class="inr-calc-row"><span>Monthly estimate</span><strong id="calcMonthly">—</strong></div>
+      <div class="inr-calc-row tax-row"><span>30% India crypto tax</span><span id="calcTax">—</span></div>
+      <div class="inr-calc-row net-row"><span>Net return after tax</span><strong id="calcNet">—</strong></div>
+    </div>
     <button class="btn-submit" onclick="confirmInvest()">💰 Confirm Investment</button>
     <div class="status-box" id="investStatus"></div>
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="main-wrap">
 
-  <!-- BROWSE SECTION -->
-  <div id="section-browse">
-    <div class="section-header" style="margin-top:8px">
-      <div>
-        <div class="section-title">Active Campaigns</div>
-        <div class="section-sub">Verified businesses raising funds from their communities</div>
-      </div>
-      <button class="btn-primary" style="font-size:13px;padding:9px 18px" onclick="loadCampaigns()">↻ Refresh</button>
+<!-- BROWSE -->
+<div id="section-browse">
+  <div class="section-header" style="margin-top:8px">
+    <div><div class="section-title">Active Campaigns</div><div class="section-sub">Real businesses raising from their community</div></div>
+    <button class="btn-primary" style="font-size:13px;padding:9px 18px" onclick="loadCampaigns()">↻ Refresh</button>
+  </div>
+  <div class="filter-bar">
+    <button class="filter-pill active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-pill" onclick="setFilter('0',this)">🍵 Food</button>
+    <button class="filter-pill" onclick="setFilter('1',this)">🛒 Retail</button>
+    <button class="filter-pill" onclick="setFilter('2',this)">🚗 Transport</button>
+    <button class="filter-pill" onclick="setFilter('active',this)">● Active only</button>
+    <div class="search-box"><span class="search-icon">🔍</span><input type="text" id="searchBox" placeholder="Search businesses…" oninput="filterRender()"/></div>
+  </div>
+  <div id="campaignsList"><div class="spinner"><div class="spinner-circle"></div>Loading campaigns from Base…</div></div>
+  <div class="how-section">
+    <div class="section-title">How LocalRaise works</div>
+    <div class="how-grid">
+      <div class="how-step"><div class="how-num">1</div><div class="how-title">Business lists a campaign</div><div class="how-desc">Any small business sets a funding goal with a return offer and deadline. No bank paperwork. No collateral needed.</div></div>
+      <div class="how-step"><div class="how-num">2</div><div class="how-title">Community invests</div><div class="how-desc">Anyone invests any amount. Goal reached → business gets funds. Goal not met → everyone is automatically refunded.</div></div>
+      <div class="how-step"><div class="how-num">3</div><div class="how-title">Earn real returns</div><div class="how-desc">Business sends monthly payments through the smart contract. Every investor gets proportional returns automatically.</div></div>
     </div>
-    <div class="filter-bar">
-      <button class="filter-pill active" onclick="setFilter('all',this)">All</button>
-      <button class="filter-pill" onclick="setFilter('0',this)">🍵 Food</button>
-      <button class="filter-pill" onclick="setFilter('1',this)">🛒 Retail</button>
-      <button class="filter-pill" onclick="setFilter('2',this)">🚗 Transport</button>
-      <button class="filter-pill" onclick="setFilter('active',this)">● Active only</button>
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchBox" placeholder="Search businesses…" oninput="filterRender()"/>
-      </div>
-    </div>
-    <div id="campaignsList"><div class="spinner"><div class="spinner-circle"></div>Loading campaigns from Base…</div></div>
+  </div>
+</div>
 
-    <!-- HOW IT WORKS -->
-    <div class="how-section">
-      <div class="section-title">How LocalRaise works</div>
-      <div class="how-grid">
-        <div class="how-step">
-          <div class="how-num">1</div>
-          <div class="how-title">Business lists a campaign</div>
-          <div class="how-desc">A chai shop, kirana store, or auto-rickshaw owner creates a funding goal with a return offer and deadline. Takes 2 minutes.</div>
+<!-- CREATE -->
+<div id="section-create" style="display:none">
+  <div class="section-header"><div><div class="section-title">List Your Business</div><div class="section-sub">Create a funding campaign in about 5 minutes</div></div></div>
+  <div id="createConnectWall" class="connect-wall" style="display:none">
+    <h3>Connect your wallet first</h3><p>You need a connected wallet to create a campaign</p>
+    <button class="btn-primary" onclick="connectWallet()">Connect Wallet</button>
+  </div>
+  <div id="createFormWrap">
+    <div class="form-grid">
+      <div class="form-card">
+        <h3>Business details</h3>
+        <div class="form-group"><label class="form-label">Business Name</label><input class="form-input" type="text" id="bizName" placeholder="e.g. Ramesh Chai Shop"/></div>
+        <div class="form-group"><label class="form-label">Description — what will you use the funds for?</label><textarea class="form-textarea" id="bizDesc" placeholder="Tell investors about your business and exactly how you will use the funds…"></textarea></div>
+        <div class="form-group"><label class="form-label">Location</label><input class="form-input" type="text" id="bizLocation" placeholder="e.g. Dehradun, Uttarakhand"/></div>
+        <div class="form-group"><label class="form-label">Category</label>
+          <select class="form-select" id="bizCat">
+            <option value="0">🍵 Food &amp; Beverage</option>
+            <option value="1">🛒 Retail &amp; Local Shop</option>
+            <option value="2">🚗 Transport &amp; Logistics</option>
+          </select>
         </div>
-        <div class="how-step">
-          <div class="how-num">2</div>
-          <div class="how-title">Community invests</div>
-          <div class="how-desc">Anyone can invest any amount. When the goal is reached the business receives funds instantly. If the goal isn't met, everyone is automatically refunded.</div>
+      </div>
+      <div class="form-card">
+        <h3>Funding &amp; returns</h3>
+        <div class="form-group"><label class="form-label">Return Model</label>
+          <select class="form-select" id="bizModel" onchange="updateReturnHelp()">
+            <option value="0">Revenue Share — share % of monthly profit</option>
+            <option value="1">Fixed Return — pay back principal + fixed %</option>
+          </select>
         </div>
-        <div class="how-step">
-          <div class="how-num">3</div>
-          <div class="how-title">Earn real returns</div>
-          <div class="how-desc">Business sends monthly payments back through the contract. Every investor earns proportional returns automatically — no middlemen, no trust required.</div>
+        <div class="return-info" id="returnHelpText"><strong>Revenue Share:</strong> You share a percentage of your monthly profit with investors every month for the repayment period.</div>
+        <div class="form-group">
+          <label class="form-label">Funding Goal (₹ Rupees)</label>
+          <input class="form-input" type="number" id="bizGoalInr" placeholder="e.g. 50000" oninput="updateGoalConvert()"/>
+          <div class="inr-convert-hint" id="goalConvertHint">Enter your goal in rupees — we convert to ETH automatically</div>
+          <input type="hidden" id="bizGoal"/>
         </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Return % <span id="returnLabel" style="font-weight:400;color:var(--gray-500);text-transform:none">of monthly profit</span></label><input class="form-input" type="number" id="bizReturn" placeholder="e.g. 20" min="5" max="200"/></div>
+          <div class="form-group"><label class="form-label">Repayment (months)</label><input class="form-input" type="number" id="bizMonths" placeholder="3–36" min="3" max="36"/></div>
+        </div>
+        <div class="form-group"><label class="form-label">Funding Deadline (days)</label><input class="form-input" type="number" id="bizDays" placeholder="7–90 days" min="7" max="90"/></div>
+        <button class="btn-submit" onclick="createCampaign()">🚀 Launch Campaign</button>
+        <div class="status-box" id="createStatus"></div>
+        <div style="margin-top:14px;font-size:12px;color:var(--gray-500);line-height:1.6">Platform fee: 1.5% on successful raises · 0.5% on repayments · Min investment: ₹250 (0.001 ETH)</div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- CREATE SECTION -->
-  <div id="section-create" style="display:none">
-    <div class="section-header">
-      <div>
-        <div class="section-title">List your business</div>
-        <div class="section-sub">Create a funding campaign — it takes about 5 minutes</div>
+<!-- PORTFOLIO -->
+<div id="section-portfolio" style="display:none">
+  <div class="section-header"><div><div class="section-title">My Portfolio</div><div class="section-sub">Your investments and campaigns</div></div></div>
+  <div id="portfolioConnectWall" class="connect-wall" style="display:none">
+    <h3>Connect your wallet</h3><p>Connect to see your investments and business campaigns</p>
+    <button class="btn-primary" onclick="connectWallet()">Connect Wallet</button>
+  </div>
+  <div id="portfolioContent" style="display:none">
+    <div style="margin-bottom:28px"><div class="section-title" style="font-size:16px;margin-bottom:14px">My Investments</div><div id="myInvestments"><div class="spinner"><div class="spinner-circle"></div></div></div></div>
+    <div><div class="section-title" style="font-size:16px;margin-bottom:14px">My Business Campaigns</div><div id="myCampaigns"><div class="spinner"><div class="spinner-circle"></div></div></div></div>
+  </div>
+</div>
+
+<!-- REPAY -->
+<div id="section-repay" style="display:none">
+  <div class="section-header"><div><div class="section-title">Make a Repayment</div><div class="section-sub">Send monthly payments to your investors — each payment builds your reputation</div></div></div>
+  <div id="repayConnectWall" class="connect-wall" style="display:none">
+    <h3>Connect your wallet</h3><p>Connect to make repayments to your investors</p>
+    <button class="btn-primary" onclick="connectWallet()">Connect Wallet</button>
+  </div>
+  <div id="repayFormWrap" style="display:none">
+    <div class="form-grid">
+      <div class="repay-card">
+        <h3>Send payment</h3><p class="repay-desc">Enter your campaign ID and amount to distribute to all investors proportionally.</p>
+        <div class="form-group"><label class="form-label">Campaign ID</label><input class="form-input" type="number" id="repayId" placeholder="e.g. 0" min="0" oninput="loadRepayInfo()"/></div>
+        <div id="repayInfo" style="display:none" class="return-info"></div>
+        <div class="form-group"><label class="form-label">Amount (ETH)</label><input class="form-input" type="number" id="repayAmt" placeholder="e.g. 0.005" step="0.001" min="0.001"/></div>
+        <div class="form-group"><label class="form-label">Note for Investors</label><input class="form-input" type="text" id="repayNote" placeholder="e.g. Month 3 — great sales this season!"/></div>
+        <button class="btn-submit" onclick="makeRepayment()">💸 Send to Investors</button>
+        <div class="status-box" id="repayStatus"></div>
       </div>
-    </div>
-    <div id="createConnectWall" class="connect-wall" style="display:none">
-      <h3>Connect your wallet first</h3>
-      <p>You need a connected wallet to create a campaign</p>
-      <button class="btn-primary" onclick="connectWallet()">Connect Wallet</button>
-    </div>
-    <div id="createFormWrap">
-      <div class="form-grid">
-        <div class="form-card">
-          <h3>Business details</h3>
-          <div class="form-group">
-            <label class="form-label">Business name</label>
-            <input class="form-input" type="text" id="bizName" placeholder="e.g. Ramesh Chai Shop"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Description — what do you need funding for?</label>
-            <textarea class="form-textarea" id="bizDesc" placeholder="Tell investors about your business and exactly how you'll use the funds…"></textarea>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Location</label>
-            <input class="form-input" type="text" id="bizLocation" placeholder="e.g. Dehradun, Uttarakhand"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Category</label>
-            <select class="form-select" id="bizCat">
-              <option value="0">🍵 Food &amp; Beverage</option>
-              <option value="1">🛒 Retail &amp; Local Shop</option>
-              <option value="2">🚗 Transport &amp; Logistics</option>
-            </select>
+      <div class="repay-card">
+        <h3>Repayment History</h3><p class="repay-desc">View the full payment history for any campaign.</p>
+        <div class="form-group"><label class="form-label">Campaign ID</label>
+          <div style="display:flex;gap:8px">
+            <input class="form-input" type="number" id="histId" placeholder="e.g. 0" min="0"/>
+            <button onclick="loadRepayHistory()" style="background:var(--blue);color:#fff;border:none;padding:10px 18px;border-radius:8px;font-weight:600;cursor:pointer;font-family:var(--font);font-size:13px;white-space:nowrap">Load</button>
           </div>
         </div>
-        <div class="form-card">
-          <h3>Funding &amp; returns</h3>
-          <div class="form-group">
-            <label class="form-label">Return model</label>
-            <select class="form-select" id="bizModel" onchange="updateReturnHelp()">
-              <option value="0">Revenue share — share % of monthly profit</option>
-              <option value="1">Fixed return — pay back principal + fixed %</option>
-            </select>
-          </div>
-          <div class="return-info" id="returnHelpText">
-            <strong>Revenue share:</strong> You share a percentage of your monthly profit with investors every month for the repayment period.
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Goal amount (ETH)</label>
-              <input class="form-input" type="number" id="bizGoal" placeholder="e.g. 0.1" step="0.01"/>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Return % <span id="returnLabel" style="font-weight:400;color:var(--gray-500)">of monthly profit</span></label>
-              <input class="form-input" type="number" id="bizReturn" placeholder="e.g. 20" min="5" max="200"/>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Funding deadline (days)</label>
-              <input class="form-input" type="number" id="bizDays" placeholder="7–90 days" min="7" max="90"/>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Repayment duration (months)</label>
-              <input class="form-input" type="number" id="bizMonths" placeholder="3–36 months" min="3" max="36"/>
-            </div>
-          </div>
-          <button class="btn-submit" onclick="createCampaign()">🚀 Launch campaign</button>
-          <div class="status-box" id="createStatus"></div>
-          <div style="margin-top:16px;font-size:12px;color:var(--gray-500);line-height:1.6">
-            Platform charges 1.5% on successful raises and 0.5% on each repayment. Minimum investment per investor: 0.001 ETH.
-          </div>
-        </div>
+        <div id="repayHistory"></div>
       </div>
     </div>
   </div>
-
-  <!-- PORTFOLIO SECTION -->
-  <div id="section-portfolio" style="display:none">
-    <div class="section-header">
-      <div>
-        <div class="section-title">My portfolio</div>
-        <div class="section-sub">Your investments and campaigns</div>
-      </div>
-    </div>
-    <div id="portfolioConnectWall" class="connect-wall" style="display:none">
-      <h3>Connect your wallet</h3>
-      <p>Connect to see your investments and business campaigns</p>
-      <button class="btn-primary" onclick="connectWallet()">Connect Wallet</button>
-    </div>
-    <div id="portfolioContent" style="display:none">
-      <div style="margin-bottom:28px">
-        <div class="section-title" style="font-size:16px;margin-bottom:14px">My investments</div>
-        <div id="myInvestments"><div class="spinner"><div class="spinner-circle"></div></div></div>
-      </div>
-      <div>
-        <div class="section-title" style="font-size:16px;margin-bottom:14px">My business campaigns</div>
-        <div id="myCampaigns"><div class="spinner"><div class="spinner-circle"></div></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- REPAY SECTION -->
-  <div id="section-repay" style="display:none">
-    <div class="section-header">
-      <div>
-        <div class="section-title">Make a repayment</div>
-        <div class="section-sub">Send monthly payments to your investors — each payment builds your reputation score</div>
-      </div>
-    </div>
-    <div id="repayConnectWall" class="connect-wall" style="display:none">
-      <h3>Connect your wallet</h3>
-      <p>Connect to make repayments to your investors</p>
-      <button class="btn-primary" onclick="connectWallet()">Connect Wallet</button>
-    </div>
-    <div id="repayFormWrap" style="display:none">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px" class="form-grid">
-        <div class="repay-card">
-          <h3>Send payment</h3>
-          <p class="repay-desc">Enter your campaign ID and the amount to distribute to all investors proportionally.</p>
-          <div class="form-group">
-            <label class="form-label">Campaign ID</label>
-            <input class="form-input" type="number" id="repayId" placeholder="e.g. 0" min="0" oninput="loadRepayInfo()"/>
-          </div>
-          <div id="repayInfo" style="display:none" class="return-info"></div>
-          <div class="form-group">
-            <label class="form-label">Amount (ETH)</label>
-            <input class="form-input" type="number" id="repayAmt" placeholder="e.g. 0.05" step="0.001" min="0.001"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Note for investors</label>
-            <input class="form-input" type="text" id="repayNote" placeholder="e.g. Month 3 — sales up 15% this month!"/>
-          </div>
-          <button class="btn-submit" onclick="makeRepayment()">💸 Send to investors</button>
-          <div class="status-box" id="repayStatus"></div>
-        </div>
-        <div class="repay-card">
-          <h3>Repayment history</h3>
-          <p class="repay-desc">View the full payment history for any campaign.</p>
-          <div class="form-group">
-            <label class="form-label">Campaign ID</label>
-            <div style="display:flex;gap:8px">
-              <input class="form-input" type="number" id="histId" placeholder="e.g. 0" min="0"/>
-              <button onclick="loadRepayHistory()" style="background:var(--blue);color:#fff;border:none;padding:10px 18px;border-radius:8px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:var(--font);font-size:13px">Load</button>
-            </div>
-          </div>
-          <div id="repayHistory"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
 
 </div><!-- /main-wrap -->
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div>
       <div class="footer-brand">LocalRaise</div>
-      <div class="footer-tagline">Micro-investment platform for local businesses. Built on Base — the Ethereum L2 from Coinbase.</div>
+      <div class="footer-tagline">Micro-investment platform for local businesses. Built on Base — Coinbase's Ethereum L2. Community funding for India's 63 million small businesses.</div>
       <div style="margin-top:16px;font-size:12px">
         <div style="color:rgba(255,255,255,.4);margin-bottom:4px">Contract address</div>
-        <a href="https://basescan.org/address/0x93D50E14d2D269b594997677bEa46B766DD9A7ED" target="_blank" style="color:#60a5fa;font-family:monospace;font-size:12px;text-decoration:none">0x93D5...7ED</a>
+        <a href="https://basescan.org/address/0x93D50E14d2D269b594997677bEa46B766DD9A7ED" target="_blank" style="color:#60a5fa;font-family:monospace;font-size:12px;text-decoration:none">0x93D50E14d2D269b594997677bEa46B766DD9A7ED</a>
         <span style="margin-left:8px;font-size:11px;background:#166534;color:#bbf7d0;padding:2px 8px;border-radius:10px">✓ Verified</span>
       </div>
     </div>
@@ -550,11 +426,13 @@ footer{background:var(--gray-900);color:var(--gray-400);padding:40px 24px;margin
       <a class="footer-link" onclick="showSection('create')">List your business</a>
       <a class="footer-link" onclick="showSection('portfolio')">My portfolio</a>
       <a class="footer-link" onclick="showSection('repay')">Make repayment</a>
+      <a class="footer-link" href="blog/">Blog</a>
     </div>
     <div>
       <div class="footer-col-title">Resources</div>
       <a class="footer-link" href="https://basescan.org/address/0x93D50E14d2D269b594997677bEa46B766DD9A7ED" target="_blank">View on Basescan ↗</a>
       <a class="footer-link" href="https://github.com/crypto1008/localraise-base" target="_blank">GitHub ↗</a>
+      <a class="footer-link" href="blog/fund-your-business-without-bank.html">Funding guide ↗</a>
       <a class="footer-link" href="https://base.org" target="_blank">Built on Base ↗</a>
     </div>
   </div>
@@ -566,7 +444,6 @@ footer{background:var(--gray-900);color:var(--gray-400);padding:40px 24px;margin
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
 <script>
-// ── CONFIG ───────────────────────────────────────────────
 const CONTRACT_ADDRESS = "0x93D50E14d2D269b594997677bEa46B766DD9A7ED";
 const BASE_RPC = "https://mainnet.base.org";
 const ABI = [
@@ -578,6 +455,7 @@ const ABI = [
   "function refundExpiredCampaign(uint256) external",
   "function getAllCampaigns() external view returns (tuple(uint256,address,string,string,string,uint8,uint8,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint8,uint256,uint256,uint256)[])",
   "function getCampaign(uint256) external view returns (tuple(uint256,address,string,string,string,uint8,uint8,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint8,uint256,uint256,uint256))",
+  "function getCampaignInvestors(uint256) external view returns (address[])",
   "function getInvestment(uint256,address) external view returns (tuple(address,uint256,uint256,uint256,uint256))",
   "function getInvestorPortfolio(address) external view returns (uint256[])",
   "function getBusinessCampaigns(address) external view returns (uint256[])",
@@ -589,507 +467,407 @@ const ABI = [
   "function getPlatformStats() external view returns (uint256,uint256,uint256)"
 ];
 
-// ── STATE ─────────────────────────────────────────────────
-let browserProvider = null;  // read-only, always available
-let walletProvider = null;   // signer provider, needs MetaMask
-let signer = null;
-let userAddress = null;
-let readContract = null;     // read-only contract
-let writeContract = null;    // write contract (needs wallet)
-let campaignsCache = [];
-let activeFilter = "all";
-let currentInvestId = null;
-let currentCampaignData = null;
+let readContract=null, writeContract=null, signer=null, userAddress=null;
+let campaignsCache=[], activeFilter="all", currentInvestId=null, currentCampaignData=null;
+let ethInr=0, ethUsd=0;
 
-const CATS = ["Food","Retail","Transport"];
-const CAT_LABELS = ["🍵 Food","🛒 Retail","🚗 Transport"];
-const CAT_BADGES = ["b-food","b-retail","b-transport"];
-const STATUSES = ["Active","Funded","Repaying","Completed","Cancelled","Defaulted"];
-const STATUS_BADGES = ["b-active","b-funded","b-repaying","b-completed","b-cancelled","b-defaulted"];
+const CAT_LABELS=["🍵 Food","🛒 Retail","🚗 Transport"];
+const CAT_BADGES=["b-food","b-retail","b-transport"];
+const STATUSES=["Active","Funded","Repaying","Completed","Cancelled","Defaulted"];
+const STATUS_BADGES=["b-active","b-funded","b-repaying","b-completed","b-cancelled","b-defaulted"];
 
-// ── INIT — load read-only data immediately on page load ──
-async function initReadOnly() {
-  try {
-    browserProvider = new ethers.JsonRpcProvider(BASE_RPC);
-    readContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, browserProvider);
-    await loadStats();
-    await loadCampaigns();
-  } catch(e) {
-    console.error("Read-only init failed:", e);
-    document.getElementById("campaignsList").innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Could not connect to Base</h3><p>Check your internet connection and try refreshing</p></div>`;
+async function fetchEthPrice(){
+  try{
+    const r=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr,usd");
+    const d=await r.json();
+    ethInr=d.ethereum.inr; ethUsd=d.ethereum.usd;
+    const el=document.getElementById("ethLivePrice");
+    if(el) el.textContent="1 ETH = ₹"+Math.round(ethInr).toLocaleString("en-IN")+" ($"+Math.round(ethUsd)+")";
+    // Update INR stat after price loads
+    const vEl=document.getElementById("statVolumeInr");
+    if(vEl&&vEl.dataset.eth) vEl.textContent="₹"+Math.round(parseFloat(vEl.dataset.eth)*ethInr).toLocaleString("en-IN");
+  }catch(e){
+    const el=document.getElementById("ethLivePrice");
+    if(el) el.textContent="Price unavailable";
   }
 }
+function fmt(rupees){return "₹"+Math.round(rupees).toLocaleString("en-IN");}
+function ethToInr(eth){return parseFloat(eth||0)*ethInr;}
+function getCountdown(ts){
+  const diff=Number(ts)*1000-Date.now();
+  if(diff<=0) return{text:"Expired",urgent:true};
+  const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000);
+  if(d>0) return{text:d+"d "+h+"h left",urgent:d<=2};
+  if(h>0) return{text:h+"h "+m+"m left",urgent:true};
+  return{text:m+"m left",urgent:true};
+}
 
-// ── WALLET CONNECTION ─────────────────────────────────────
-async function connectWallet() {
-  if (!window.ethereum) { showToast("Please install MetaMask to invest or create campaigns", "error"); return; }
-  try {
-    walletProvider = new ethers.BrowserProvider(window.ethereum);
-    await walletProvider.send("eth_requestAccounts", []);
-    // Check Base network
-    const network = await walletProvider.getNetwork();
-    if (network.chainId !== 8453n) {
-      try {
-        await walletProvider.send("wallet_switchEthereumChain", [{ chainId: "0x2105" }]);
-        walletProvider = new ethers.BrowserProvider(window.ethereum);
-      } catch(switchErr) {
-        showToast("Please switch MetaMask to Base Mainnet (Chain ID 8453)", "error");
-        return;
-      }
+async function initReadOnly(){
+  try{
+    const p=new ethers.JsonRpcProvider(BASE_RPC);
+    readContract=new ethers.Contract(CONTRACT_ADDRESS,ABI,p);
+    await Promise.all([loadStats(),loadCampaigns(),fetchEthPrice()]);
+  }catch(e){
+    document.getElementById("campaignsList").innerHTML='<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Could not connect to Base</h3><p>Check your internet connection</p></div>';
+  }
+}
+setInterval(fetchEthPrice,60000);
+
+async function connectWallet(){
+  if(!window.ethereum){showToast("Please install MetaMask","error");return;}
+  try{
+    const wp=new ethers.BrowserProvider(window.ethereum);
+    await wp.send("eth_requestAccounts",[]);
+    const net=await wp.getNetwork();
+    if(net.chainId!==8453n){
+      try{await wp.send("wallet_switchEthereumChain",[{chainId:"0x2105"}]);}
+      catch(e){showToast("Please switch MetaMask to Base Mainnet (Chain ID 8453)","error");return;}
     }
-    signer = await walletProvider.getSigner();
-    userAddress = await signer.getAddress();
-    writeContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-    // Use wallet provider for reads too (more reliable)
-    readContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, walletProvider);
+    const walletP=new ethers.BrowserProvider(window.ethereum);
+    signer=await walletP.getSigner();
+    userAddress=await signer.getAddress();
+    writeContract=new ethers.Contract(CONTRACT_ADDRESS,ABI,signer);
+    readContract=new ethers.Contract(CONTRACT_ADDRESS,ABI,walletP);
+    document.getElementById("walletPill").textContent=userAddress.slice(0,6)+"…"+userAddress.slice(-4);
+    document.getElementById("walletPill").style.display="block";
+    document.getElementById("connectBtn").textContent="Connected ✓";
+    document.getElementById("connectBtn").style.background="var(--green)";
+    showToast("Wallet connected!");
+    await Promise.all([loadStats(),loadCampaigns()]);
+    if(document.getElementById("section-portfolio").style.display!=="none") loadPortfolio();
+  }catch(e){showToast("Connection failed: "+(e.message||e),"error");}
+}
 
-    // Update UI
-    document.getElementById("walletPill").textContent = userAddress.slice(0,6)+"…"+userAddress.slice(-4);
-    document.getElementById("walletPill").style.display = "block";
-    document.getElementById("connectBtn").textContent = "Connected";
-    document.getElementById("connectBtn").style.background = "var(--green)";
-    showToast("Wallet connected! Welcome to LocalRaise.");
-    await loadStats();
-    await loadCampaigns();
-    // refresh portfolio if visible
-    if (document.getElementById("section-portfolio").style.display !== "none") loadPortfolio();
-  } catch(e) {
-    console.error(e);
-    showToast("Connection failed: " + (e.message || e), "error");
+function showSection(name){
+  ["browse","create","portfolio","repay"].forEach(n=>{document.getElementById("section-"+n).style.display="none";});
+  document.getElementById("section-"+name).style.display="block";
+  document.querySelectorAll(".nav-link").forEach(b=>b.classList.remove("active"));
+  const idx=["browse","create","portfolio","repay"].indexOf(name);
+  if(idx>=0) document.querySelectorAll(".nav-link")[idx].classList.add("active");
+  document.querySelector(".main-wrap").scrollIntoView({behavior:"smooth"});
+  if(name==="portfolio"){
+    if(!userAddress){document.getElementById("portfolioConnectWall").style.display="block";document.getElementById("portfolioContent").style.display="none";}
+    else{document.getElementById("portfolioConnectWall").style.display="none";document.getElementById("portfolioContent").style.display="block";loadPortfolio();}
+  }
+  if(name==="create"){
+    if(!userAddress){document.getElementById("createConnectWall").style.display="block";document.getElementById("createFormWrap").style.display="none";}
+    else{document.getElementById("createConnectWall").style.display="none";document.getElementById("createFormWrap").style.display="block";}
+  }
+  if(name==="repay"){
+    if(!userAddress){document.getElementById("repayConnectWall").style.display="block";document.getElementById("repayFormWrap").style.display="none";}
+    else{document.getElementById("repayConnectWall").style.display="none";document.getElementById("repayFormWrap").style.display="block";}
   }
 }
 
-// ── NAVIGATION ─────────────────────────────────────────────
-function showSection(name) {
-  ["browse","create","portfolio","repay"].forEach(n => {
-    document.getElementById("section-"+n).style.display = "none";
+async function loadStats(){
+  if(!readContract) return;
+  try{
+    const [c,v,i]=await readContract.getPlatformStats();
+    document.getElementById("statCampaigns").textContent=c.toString();
+    const ethVol=parseFloat(ethers.formatEther(v));
+    document.getElementById("statVolume").textContent=ethVol.toFixed(4)+" ETH";
+    const inrEl=document.getElementById("statVolumeInr");
+    inrEl.dataset.eth=ethVol;
+    if(ethInr) inrEl.textContent="₹"+Math.round(ethVol*ethInr).toLocaleString("en-IN");
+    document.getElementById("statInvestors").textContent=i.toString();
+  }catch(e){}
+}
+
+async function loadCampaigns(){
+  if(!readContract) return;
+  const el=document.getElementById("campaignsList");
+  el.innerHTML='<div class="spinner"><div class="spinner-circle"></div>Loading campaigns…</div>';
+  try{campaignsCache=await readContract.getAllCampaigns();filterRender();}
+  catch(e){el.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><h3>No campaigns yet</h3><p>Be the first to list your business!</p></div>';}
+}
+
+function setFilter(f,btn){activeFilter=f;document.querySelectorAll(".filter-pill").forEach(b=>b.classList.remove("active"));btn.classList.add("active");filterRender();}
+
+function filterRender(){
+  const search=(document.getElementById("searchBox").value||"").toLowerCase();
+  const filtered=campaignsCache.filter(c=>{
+    const ms=!search||(c[2]||"").toLowerCase().includes(search)||(c[3]||"").toLowerCase().includes(search)||(c[4]||"").toLowerCase().includes(search);
+    const cat=Number(c[5]),status=Number(c[14]);
+    const mf=activeFilter==="all"?true:activeFilter==="active"?status===0:activeFilter===cat.toString();
+    return ms&&mf;
   });
-  document.getElementById("section-"+name).style.display = "block";
-  // scroll to top of content
-  document.querySelector(".main-wrap").scrollIntoView({ behavior:"smooth" });
-
-  // Update nav active state
-  document.querySelectorAll(".nav-link").forEach((b,i) => b.classList.remove("active"));
-  const names = ["browse","create","portfolio","repay"];
-  const idx = names.indexOf(name);
-  if (idx >= 0) document.querySelectorAll(".nav-link")[idx].classList.add("active");
-
-  // Section-specific logic
-  if (name === "portfolio") {
-    if (!userAddress) { document.getElementById("portfolioConnectWall").style.display="block"; document.getElementById("portfolioContent").style.display="none"; }
-    else { document.getElementById("portfolioConnectWall").style.display="none"; document.getElementById("portfolioContent").style.display="block"; loadPortfolio(); }
-  }
-  if (name === "create") {
-    if (!userAddress) { document.getElementById("createConnectWall").style.display="block"; document.getElementById("createFormWrap").style.display="none"; }
-    else { document.getElementById("createConnectWall").style.display="none"; document.getElementById("createFormWrap").style.display="block"; }
-  }
-  if (name === "repay") {
-    if (!userAddress) { document.getElementById("repayConnectWall").style.display="block"; document.getElementById("repayFormWrap").style.display="none"; }
-    else { document.getElementById("repayConnectWall").style.display="none"; document.getElementById("repayFormWrap").style.display="block"; }
-  }
+  const el=document.getElementById("campaignsList");
+  if(!filtered.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><h3>No campaigns found</h3><p>Try a different filter</p></div>';return;}
+  el.innerHTML='<div class="campaign-grid">'+filtered.map(renderCard).join("")+'</div>';
 }
 
-// ── STATS ─────────────────────────────────────────────────
-async function loadStats() {
-  if (!readContract) return;
-  try {
-    const [c, v, i] = await readContract.getPlatformStats();
-    document.getElementById("statCampaigns").textContent = c.toString();
-    document.getElementById("statVolume").textContent = parseFloat(ethers.formatEther(v)).toFixed(4) + " ETH";
-    document.getElementById("statInvestors").textContent = i.toString();
-  } catch(e) { console.error("Stats load:", e); }
-}
-
-// ── CAMPAIGNS ─────────────────────────────────────────────
-async function loadCampaigns() {
-  if (!readContract) return;
-  const el = document.getElementById("campaignsList");
-  el.innerHTML = '<div class="spinner"><div class="spinner-circle"></div>Loading campaigns…</div>';
-  try {
-    const all = await readContract.getAllCampaigns();
-    campaignsCache = all;
-    filterRender();
-  } catch(e) {
-    console.error("Campaigns load:", e);
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><h3>No campaigns yet</h3><p>Be the first to list your business on LocalRaise!</p></div>';
-  }
-}
-
-function setFilter(f, btn) {
-  activeFilter = f;
-  document.querySelectorAll(".filter-pill").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  filterRender();
-}
-
-function filterRender() {
-  const search = (document.getElementById("searchBox").value || "").toLowerCase();
-  let filtered = campaignsCache.filter(c => {
-    const name = (c[2]||"").toLowerCase();
-    const desc = (c[3]||"").toLowerCase();
-    const loc  = (c[4]||"").toLowerCase();
-    const cat  = Number(c[5]);
-    const status = Number(c[14]);
-    const matchSearch = !search || name.includes(search) || desc.includes(search) || loc.includes(search);
-    const matchFilter =
-      activeFilter === "all" ? true :
-      activeFilter === "active" ? status === 0 :
-      activeFilter === cat.toString();
-    return matchSearch && matchFilter;
-  });
-
-  const el = document.getElementById("campaignsList");
-  if (!filtered.length) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><h3>No campaigns found</h3><p>Try a different filter or search term</p></div>';
-    return;
-  }
-  el.innerHTML = '<div class="campaign-grid">' + filtered.map(c => renderCard(c)).join("") + '</div>';
-}
-
-function renderCard(c) {
-  const id       = Number(c[0]);
-  const goal     = parseFloat(ethers.formatEther(c[7]));
-  const raised   = parseFloat(ethers.formatEther(c[8]));
-  const cat      = Number(c[5]);
-  const model    = Number(c[6]);
-  const status   = Number(c[14]);
-  const deadline = new Date(Number(c[9])*1000).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
-  const progress = goal > 0 ? Math.min(Math.round((raised/goal)*100), 100) : 0;
-  const months   = Number(c[10]);
-  const retPct   = Number(c[11]);
-  const canInvest = status === 0 && Date.now()/1000 < Number(c[9]);
-
-  return `<div class="campaign-card" onclick="openInvest(${id})">
-    <div class="card-top">
-      <div>
-        <div class="card-biz">${esc(c[2])}</div>
-        <div class="card-loc">📍 ${esc(c[4])}</div>
-      </div>
-    </div>
+function renderCard(c){
+  const id=Number(c[0]),goal=parseFloat(ethers.formatEther(c[7])),raised=parseFloat(ethers.formatEther(c[8]));
+  const cat=Number(c[5]),model=Number(c[6]),status=Number(c[14]),months=Number(c[10]),retPct=Number(c[11]);
+  const progress=goal>0?Math.min(Math.round((raised/goal)*100),100):0;
+  const cd=getCountdown(c[9]);
+  const canInvest=status===0&&Date.now()/1000<Number(c[9]);
+  const goalInr=ethInr?"₹"+Math.round(goal*ethInr).toLocaleString("en-IN"):"";
+  const raisedInr=ethInr?"₹"+Math.round(raised*ethInr).toLocaleString("en-IN"):"";
+  const waMsg=encodeURIComponent(
+    c[2]+" needs "+(goalInr||goal.toFixed(4)+" ETH")+" to grow their business!\n"+
+    "Invest on LocalRaise and earn "+retPct+"% returns.\n"+
+    "👉 https://crypto1008.github.io/localraise-base/"
+  );
+  return`<div class="campaign-card" onclick="openInvest(${id})">
+    <div class="card-biz">${esc(c[2])}</div>
+    <div class="card-loc">📍 ${esc(c[4])}</div>
     <div class="badges">
       <span class="badge ${CAT_BADGES[cat]}">${CAT_LABELS[cat]}</span>
       <span class="badge ${STATUS_BADGES[status]}">● ${STATUSES[status]}</span>
-      <span class="badge ${model===0?'b-revenue':'b-fixed'}">${model===0?'Revenue share':'Fixed return'}</span>
+      <span class="badge ${model===0?"b-revenue":"b-fixed"}">${model===0?"Revenue share":"Fixed return"}</span>
     </div>
     <div class="card-desc">${esc(c[3])}</div>
-    <div class="progress-wrap">
-      <div class="progress-bar"><div class="progress-fill ${progress>=100?'done':''}" style="width:${progress}%"></div></div>
-      <div class="progress-row">
-        <span>${raised.toFixed(4)} ETH raised</span>
-        <span>${progress}% of ${goal} ETH</span>
-      </div>
+    <div class="progress-bar"><div class="progress-fill ${progress>=100?"done":""}" style="width:${progress}%"></div></div>
+    <div class="progress-row">
+      <span>${goalInr?'<span class="inr-big">'+goalInr+'</span> goal':goal.toFixed(4)+" ETH goal"}</span>
+      <span>${progress}% funded</span>
+    </div>
+    <div class="card-meta">
+      ${canInvest?`<span class="countdown ${cd.urgent?"urgent":""}">${cd.text}</span>`:""}
+      <span>📈 ${retPct}% / ${months}mo</span>
     </div>
     <div class="card-footer">
-      <span>⏱ Deadline ${deadline} · ${retPct}% over ${months}mo</span>
-      ${canInvest ? `<button class="invest-btn" onclick="event.stopPropagation();openInvest(${id})">Invest →</button>` : ''}
+      <span style="font-size:12px;color:var(--gray-500)">${raisedInr||raised.toFixed(4)+" ETH"} raised</span>
+      <div class="card-actions">
+        <a class="whatsapp-btn" href="https://wa.me/?text=${waMsg}" target="_blank" onclick="event.stopPropagation()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Share
+        </a>
+        ${canInvest?`<button class="invest-btn" onclick="event.stopPropagation();openInvest(${id})">Invest →</button>`:""}
+      </div>
     </div>
   </div>`;
 }
 
-// ── INVEST MODAL ───────────────────────────────────────────
-async function openInvest(id) {
-  if (!readContract) return;
-  currentInvestId = id;
-  try {
-    const c = await readContract.getCampaign(id);
-    currentCampaignData = c;
-    const goal    = parseFloat(ethers.formatEther(c[7]));
-    const raised  = parseFloat(ethers.formatEther(c[8]));
-    const remain  = Math.max(0, goal - raised).toFixed(4);
-    const model   = Number(c[6]);
-    const retPct  = Number(c[11]);
-    const months  = Number(c[10]);
-    const deadline = new Date(Number(c[9])*1000).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
-    const status  = Number(c[14]);
-
-    if (status !== 0) { showToast("This campaign is no longer accepting investments", "error"); return; }
-    if (Date.now()/1000 >= Number(c[9])) { showToast("This campaign's funding deadline has passed", "error"); return; }
-
-    document.getElementById("modalTitle").textContent = `Invest in ${c[2]}`;
-    document.getElementById("modalCampaignInfo").innerHTML = `
-      <strong>${esc(c[2])}</strong>
-      ${esc(c[4])} · ${CAT_LABELS[Number(c[5])]} · ${model===0?'Revenue share':'Fixed return'}<br/>
-      Goal: <strong>${goal} ETH</strong> &nbsp;|&nbsp; Raised: <strong>${raised.toFixed(4)} ETH</strong> &nbsp;|&nbsp; Max you can invest: <strong>${remain} ETH</strong><br/>
+async function openInvest(id){
+  if(!readContract) return;
+  currentInvestId=id;
+  try{
+    const c=await readContract.getCampaign(id);
+    currentCampaignData=c;
+    const goal=parseFloat(ethers.formatEther(c[7])),raised=parseFloat(ethers.formatEther(c[8]));
+    const remain=Math.max(0,goal-raised),model=Number(c[6]),retPct=Number(c[11]),months=Number(c[10]);
+    const status=Number(c[14]);
+    if(status!==0){showToast("This campaign is not accepting investments","error");return;}
+    if(Date.now()/1000>=Number(c[9])){showToast("This campaign's deadline has passed","error");return;}
+    const goalInr=ethInr?"₹"+Math.round(goal*ethInr).toLocaleString("en-IN"):goal.toFixed(4)+" ETH";
+    const remainInr=ethInr?"₹"+Math.round(remain*ethInr).toLocaleString("en-IN"):remain.toFixed(4)+" ETH";
+    const deadline=new Date(Number(c[9])*1000).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
+    document.getElementById("modalTitle").textContent="Invest in "+c[2];
+    document.getElementById("modalCampaignInfo").innerHTML=
+      `<strong>${esc(c[2])}</strong>
+      📍 ${esc(c[4])} · ${CAT_LABELS[Number(c[5])]} · ${model===0?"Revenue share":"Fixed return"}<br/>
+      Goal: <strong>${goalInr}</strong> · Max you can invest: <strong>${remainInr}</strong><br/>
       Return: <strong>${retPct}%</strong> over <strong>${months} months</strong> · Deadline: ${deadline}`;
-
-    document.getElementById("investAmount").value = "";
-    document.getElementById("returnPreview").style.display = "none";
+    document.getElementById("investAmount").value="";
+    document.getElementById("investAmtInr").value="";
+    document.getElementById("returnCalcBox").style.display="none";
     setStatus("investStatus","","");
     document.getElementById("investModal").classList.add("open");
-  } catch(e) { showToast("Could not load campaign data", "error"); console.error(e); }
+  }catch(e){showToast("Could not load campaign data","error");}
 }
 
-function updateReturnCalc() {
-  if (!currentCampaignData) return;
-  const amt = parseFloat(document.getElementById("investAmount").value);
-  if (!amt || amt <= 0) { document.getElementById("returnPreview").style.display="none"; return; }
-  const model  = Number(currentCampaignData[6]);
-  const retPct = Number(currentCampaignData[11]);
-  const months = Number(currentCampaignData[10]);
-  const goal   = parseFloat(ethers.formatEther(currentCampaignData[7]));
-  const share  = Math.min((amt/goal)*100, 100).toFixed(1);
-  let totalReturn, monthly;
-  if (model === 0) {
-    totalReturn = (amt * retPct / 100).toFixed(4);
-    monthly = (amt * retPct / 100 / months).toFixed(5);
-  } else {
-    totalReturn = (amt + amt * retPct / 100).toFixed(4);
-    monthly = ((amt + amt * retPct / 100) / months).toFixed(5);
+function onInrChange(){
+  const inrVal=parseFloat(document.getElementById("investAmtInr").value);
+  if(!inrVal||!ethInr) return;
+  const eth=inrVal/ethInr;
+  document.getElementById("investAmount").value=eth.toFixed(6);
+  updateReturnCalc(inrVal,eth);
+}
+function onEthChange(){
+  const eth=parseFloat(document.getElementById("investAmount").value);
+  if(!eth||!ethInr) return;
+  const inrVal=Math.round(eth*ethInr);
+  document.getElementById("investAmtInr").value=inrVal;
+  updateReturnCalc(inrVal,eth);
+}
+function updateReturnCalc(inrAmt,ethAmt){
+  if(!currentCampaignData||!inrAmt||inrAmt<=0){document.getElementById("returnCalcBox").style.display="none";return;}
+  const retPct=Number(currentCampaignData[11]),months=Number(currentCampaignData[10]),model=Number(currentCampaignData[6]);
+  const goal=parseFloat(ethers.formatEther(currentCampaignData[7]));
+  const totalGross=inrAmt*retPct/100;
+  const monthly=model===0?totalGross/months:(inrAmt+totalGross)/months;
+  const tax=totalGross*0.30,net=totalGross-tax;
+  document.getElementById("calcInvested").textContent=fmt(inrAmt);
+  document.getElementById("calcRetPct").textContent=retPct;
+  document.getElementById("calcGross").textContent=fmt(totalGross);
+  document.getElementById("calcMonthly").textContent=fmt(monthly)+"/mo";
+  document.getElementById("calcTax").textContent="−"+fmt(tax);
+  document.getElementById("calcNet").textContent=fmt(net);
+  document.getElementById("returnCalcBox").style.display="block";
+}
+
+async function confirmInvest(){
+  if(!userAddress){showToast("Connect your wallet first","error");closeModal();connectWallet();return;}
+  const ethVal=document.getElementById("investAmount").value;
+  if(!ethVal||parseFloat(ethVal)<0.001){
+    setStatus("investStatus","Minimum investment is 0.001 ETH (≈ ₹"+(ethInr?Math.round(0.001*ethInr).toLocaleString("en-IN"):"—")+")","error");return;
   }
-  document.getElementById("returnPreview").style.display = "block";
-  document.getElementById("returnPreview").innerHTML =
-    `Your share: <strong>${share}%</strong> &nbsp;·&nbsp; Estimated total return: <strong>${totalReturn} ETH</strong> &nbsp;·&nbsp; ~<strong>${monthly} ETH/month</strong>`;
-}
-
-async function confirmInvest() {
-  if (!userAddress) { showToast("Connect your wallet first", "error"); closeModal(); connectWallet(); return; }
-  const amt = document.getElementById("investAmount").value;
-  if (!amt || parseFloat(amt) < 0.001) { setStatus("investStatus","Minimum investment is 0.001 ETH","error"); return; }
-  const goal = parseFloat(ethers.formatEther(currentCampaignData[7]));
-  const raised = parseFloat(ethers.formatEther(currentCampaignData[8]));
-  if (parseFloat(amt) > goal - raised + 0.0001) { setStatus("investStatus","Amount exceeds remaining goal","error"); return; }
-  try {
+  const goal=parseFloat(ethers.formatEther(currentCampaignData[7]));
+  const raised=parseFloat(ethers.formatEther(currentCampaignData[8]));
+  if(parseFloat(ethVal)>(goal-raised+0.0001)){setStatus("investStatus","Amount exceeds remaining goal","error");return;}
+  try{
     setStatus("investStatus","Confirm the transaction in MetaMask…","loading");
-    const tx = await writeContract.invest(currentInvestId, { value: ethers.parseEther(amt) });
+    const tx=await writeContract.invest(currentInvestId,{value:ethers.parseEther(ethVal)});
     setStatus("investStatus","Transaction sent — waiting for confirmation…","loading");
     await tx.wait();
     setStatus("investStatus","✅ Investment confirmed! Welcome aboard.","success");
     showToast("Investment successful!");
-    await loadStats(); await loadCampaigns();
-    setTimeout(closeModal, 2500);
-  } catch(e) {
-    console.error(e);
-    setStatus("investStatus","❌ " + (e.reason || e.message || "Transaction failed"), "error");
-  }
+    await loadStats();await loadCampaigns();
+    setTimeout(closeModal,2500);
+  }catch(e){setStatus("investStatus","❌ "+(e.reason||e.message||"Transaction failed"),"error");}
+}
+function closeModal(){document.getElementById("investModal").classList.remove("open");currentInvestId=null;currentCampaignData=null;}
+
+function updateGoalConvert(){
+  const inrVal=parseFloat(document.getElementById("bizGoalInr").value);
+  const hint=document.getElementById("goalConvertHint");
+  if(!inrVal||!ethInr){hint.textContent="Enter your goal in rupees — we convert to ETH automatically";document.getElementById("bizGoal").value="";return;}
+  const eth=inrVal/ethInr;
+  document.getElementById("bizGoal").value=eth.toFixed(6);
+  hint.textContent="= "+eth.toFixed(6)+" ETH at today's rate (1 ETH = ₹"+Math.round(ethInr).toLocaleString("en-IN")+")";
+}
+function updateReturnHelp(){
+  const m=document.getElementById("bizModel").value;
+  document.getElementById("returnLabel").textContent=m==="0"?"of monthly profit":"fixed interest total";
+  document.getElementById("returnHelpText").innerHTML=m==="0"
+    ?"<strong>Revenue Share:</strong> You share a percentage of your monthly profit with investors every month."
+    :"<strong>Fixed Return:</strong> You pay back the principal plus this fixed percentage spread over the repayment months.";
 }
 
-function closeModal() {
-  document.getElementById("investModal").classList.remove("open");
-  currentInvestId = null; currentCampaignData = null;
-}
-
-// ── CREATE CAMPAIGN ────────────────────────────────────────
-function updateReturnHelp() {
-  const m = document.getElementById("bizModel").value;
-  document.getElementById("returnLabel").textContent = m==="0" ? "of monthly profit" : "fixed interest total";
-  document.getElementById("returnHelpText").innerHTML = m==="0"
-    ? "<strong>Revenue share:</strong> You share a percentage of your monthly profit with investors every month for the repayment period."
-    : "<strong>Fixed return:</strong> You pay back the principal plus this fixed percentage, spread over the repayment months.";
-}
-
-async function createCampaign() {
-  if (!userAddress) { showToast("Connect your wallet first","error"); return; }
-  const name  = document.getElementById("bizName").value.trim();
-  const desc  = document.getElementById("bizDesc").value.trim();
-  const loc   = document.getElementById("bizLocation").value.trim();
-  const cat   = parseInt(document.getElementById("bizCat").value);
-  const model = parseInt(document.getElementById("bizModel").value);
-  const goal  = document.getElementById("bizGoal").value;
-  const ret   = document.getElementById("bizReturn").value;
-  const days  = document.getElementById("bizDays").value;
-  const months= document.getElementById("bizMonths").value;
-  if (!name||!desc||!loc||!goal||!ret||!days||!months) { setStatus("createStatus","❌ Please fill in all fields","error"); return; }
-  if (parseInt(days)<7||parseInt(days)>90) { setStatus("createStatus","❌ Deadline must be 7–90 days","error"); return; }
-  if (parseInt(months)<3||parseInt(months)>36) { setStatus("createStatus","❌ Repayment must be 3–36 months","error"); return; }
-  if (parseInt(ret)<5||parseInt(ret)>200) { setStatus("createStatus","❌ Return must be 5–200%","error"); return; }
-  try {
+async function createCampaign(){
+  if(!userAddress){showToast("Connect your wallet first","error");return;}
+  const name=document.getElementById("bizName").value.trim();
+  const desc=document.getElementById("bizDesc").value.trim();
+  const loc=document.getElementById("bizLocation").value.trim();
+  const cat=parseInt(document.getElementById("bizCat").value);
+  const model=parseInt(document.getElementById("bizModel").value);
+  const goalEth=document.getElementById("bizGoal").value;
+  const ret=document.getElementById("bizReturn").value;
+  const days=document.getElementById("bizDays").value;
+  const months=document.getElementById("bizMonths").value;
+  if(!name||!desc||!loc||!goalEth||!ret||!days||!months){setStatus("createStatus","❌ Please fill in all fields","error");return;}
+  if(parseInt(days)<7||parseInt(days)>90){setStatus("createStatus","❌ Deadline must be 7–90 days","error");return;}
+  if(parseInt(months)<3||parseInt(months)>36){setStatus("createStatus","❌ Repayment must be 3–36 months","error");return;}
+  if(parseInt(ret)<5||parseInt(ret)>200){setStatus("createStatus","❌ Return must be 5–200%","error");return;}
+  try{
     setStatus("createStatus","Confirm the transaction in MetaMask…","loading");
-    const tx = await writeContract.createCampaign(
-      name, desc, loc,
-      cat, model,
-      ethers.parseEther(goal),
-      parseInt(days),
-      parseInt(months),
-      parseInt(ret)
-    );
-    setStatus("createStatus","Transaction sent — waiting for confirmation…","loading");
+    const tx=await writeContract.createCampaign(name,desc,loc,cat,model,ethers.parseEther(goalEth),parseInt(days),parseInt(months),parseInt(ret));
+    setStatus("createStatus","Waiting for confirmation…","loading");
     await tx.wait();
-    setStatus("createStatus","🎉 Campaign live! Share the link with your community.","success");
+    setStatus("createStatus","🎉 Campaign live! Share it with your community on WhatsApp.","success");
     showToast("Campaign created successfully!");
-    await loadStats(); await loadCampaigns();
-  } catch(e) {
-    console.error(e);
-    setStatus("createStatus","❌ " + (e.reason || e.message || "Transaction failed"),"error");
-  }
+    await loadStats();await loadCampaigns();
+  }catch(e){setStatus("createStatus","❌ "+(e.reason||e.message||"Transaction failed"),"error");}
 }
 
-// ── PORTFOLIO ──────────────────────────────────────────────
-async function loadPortfolio() {
-  if (!userAddress || !readContract) return;
-  // Investments
-  const invEl = document.getElementById("myInvestments");
-  const bizEl = document.getElementById("myCampaigns");
-  invEl.innerHTML = '<div class="spinner"><div class="spinner-circle"></div></div>';
-  bizEl.innerHTML = '<div class="spinner"><div class="spinner-circle"></div></div>';
-  try {
-    const portIds = await readContract.getInvestorPortfolio(userAddress);
-    if (!portIds.length) {
-      invEl.innerHTML = '<div class="empty-state"><div class="empty-icon">💼</div><h3>No investments yet</h3><p>Browse active campaigns and invest to get started</p></div>';
-    } else {
-      let html = "";
-      for (const id of portIds) {
-        const idN = Number(id);
-        const [c, inv, prog] = await Promise.all([
-          readContract.getCampaign(idN),
-          readContract.getInvestment(idN, userAddress),
-          readContract.getRepaymentProgress(idN)
-        ]);
-        const invested = parseFloat(ethers.formatEther(inv[1]));
-        const earned   = parseFloat(ethers.formatEther(inv[3]));
-        const share    = (Number(inv[2])/100).toFixed(2);
-        const status   = Number(c[14]);
-        html += `<div class="portfolio-card">
-          <div class="portfolio-header">
-            <div>
-              <div class="portfolio-name">${esc(c[2])}</div>
-              <div style="font-size:12px;color:var(--gray-500);margin-top:2px">📍 ${esc(c[4])} · Campaign #${idN}</div>
-            </div>
-            <span class="badge ${STATUS_BADGES[status]}">${STATUSES[status]}</span>
-          </div>
+async function loadPortfolio(){
+  if(!userAddress||!readContract) return;
+  const invEl=document.getElementById("myInvestments"),bizEl=document.getElementById("myCampaigns");
+  invEl.innerHTML='<div class="spinner"><div class="spinner-circle"></div></div>';
+  bizEl.innerHTML='<div class="spinner"><div class="spinner-circle"></div></div>';
+  try{
+    const portIds=await readContract.getInvestorPortfolio(userAddress);
+    if(!portIds.length){invEl.innerHTML='<div class="empty-state"><div class="empty-icon">💼</div><h3>No investments yet</h3><p>Browse campaigns and invest to get started</p></div>';}
+    else{
+      let html="";
+      for(const id of portIds){
+        const idN=Number(id);
+        const [c,inv,prog]=await Promise.all([readContract.getCampaign(idN),readContract.getInvestment(idN,userAddress),readContract.getRepaymentProgress(idN)]);
+        const invested=parseFloat(ethers.formatEther(inv[1])),earned=parseFloat(ethers.formatEther(inv[3])),share=(Number(inv[2])/100).toFixed(2),status=Number(c[14]);
+        const investedInr=ethInr?"₹"+Math.round(invested*ethInr).toLocaleString("en-IN"):invested.toFixed(4)+" ETH";
+        const earnedInr=ethInr?"₹"+Math.round(earned*ethInr).toLocaleString("en-IN"):earned.toFixed(5)+" ETH";
+        html+=`<div class="portfolio-card">
+          <div class="portfolio-header"><div><div class="portfolio-name">${esc(c[2])}</div><div style="font-size:12px;color:var(--gray-500);margin-top:2px">📍 ${esc(c[4])} · Campaign #${idN}</div></div><span class="badge ${STATUS_BADGES[status]}">${STATUSES[status]}</span></div>
           <div class="progress-bar" style="margin-bottom:6px"><div class="progress-fill done" style="width:${Math.min(Number(prog),100)}%"></div></div>
           <div style="font-size:12px;color:var(--gray-500);margin-bottom:10px">${Number(prog)}% repaid</div>
           <div class="portfolio-stats">
-            <div class="p-stat"><div class="p-stat-val">${invested.toFixed(4)}</div><div class="p-stat-label">ETH invested</div></div>
+            <div class="p-stat"><div class="p-stat-val">${investedInr}</div><div class="p-stat-label">Invested</div></div>
             <div class="p-stat"><div class="p-stat-val">${share}%</div><div class="p-stat-label">Your share</div></div>
-            <div class="p-stat"><div class="p-stat-val" style="color:var(--green)">${earned.toFixed(5)}</div><div class="p-stat-label">ETH earned</div></div>
+            <div class="p-stat"><div class="p-stat-val" style="color:var(--green)">${earnedInr}</div><div class="p-stat-label">Earned</div></div>
           </div>
         </div>`;
       }
-      invEl.innerHTML = html;
+      invEl.innerHTML=html;
     }
-  } catch(e) { console.error(e); invEl.innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Could not load portfolio</h3></div>'; }
-
-  try {
-    const bizIds = await readContract.getBusinessCampaigns(userAddress);
-    const profile = await readContract.getBusinessProfile(userAddress);
-    if (!bizIds.length) {
-      bizEl.innerHTML = '<div class="empty-state"><div class="empty-icon">🏪</div><h3>No campaigns yet</h3><p>Go to "List Business" to create your first campaign</p></div>';
-      return;
-    }
-    let html = `<div class="portfolio-card" style="margin-bottom:14px">
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center">
-        <div class="p-stat"><div class="p-stat-val">${parseFloat(ethers.formatEther(profile[0])).toFixed(4)}</div><div class="p-stat-label">ETH raised</div></div>
-        <div class="p-stat"><div class="p-stat-val" style="color:var(--green)">${Number(profile[2])}</div><div class="p-stat-label">Completed</div></div>
-        <div class="p-stat"><div class="p-stat-val">${Number(profile[4])}</div><div class="p-stat-label">Rep score</div></div>
-        <div class="p-stat"><div class="p-stat-val">${profile[5] ? '✓ Yes' : 'No'}</div><div class="p-stat-label">Verified</div></div>
-      </div>
-    </div>`;
-    for (const id of bizIds) {
-      const idN = Number(id);
-      const c = await readContract.getCampaign(idN);
-      const goal   = parseFloat(ethers.formatEther(c[7]));
-      const raised = parseFloat(ethers.formatEther(c[8]));
-      const status = Number(c[14]);
-      const prog   = goal > 0 ? Math.round((raised/goal)*100) : 0;
-      let inst = "—";
-      if (status===2||status===1) {
-        try { inst = parseFloat(ethers.formatEther(await readContract.getMonthlyInstallment(idN))).toFixed(5) + " ETH"; } catch{}
-      }
-      html += `<div class="portfolio-card">
-        <div class="portfolio-header">
-          <div class="portfolio-name">${esc(c[2])} — Campaign #${idN}</div>
-          <span class="badge ${STATUS_BADGES[status]}">${STATUSES[status]}</span>
-        </div>
+  }catch(e){invEl.innerHTML='<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Could not load</h3></div>';}
+  try{
+    const bizIds=await readContract.getBusinessCampaigns(userAddress);
+    const profile=await readContract.getBusinessProfile(userAddress);
+    if(!bizIds.length){bizEl.innerHTML='<div class="empty-state"><div class="empty-icon">🏪</div><h3>No campaigns yet</h3><p>Go to "List Business" to create your first campaign</p></div>';return;}
+    let html=`<div class="portfolio-card" style="margin-bottom:14px"><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center">
+      <div class="p-stat"><div class="p-stat-val">${parseFloat(ethers.formatEther(profile[0])).toFixed(4)}</div><div class="p-stat-label">ETH raised</div></div>
+      <div class="p-stat"><div class="p-stat-val" style="color:var(--green)">${Number(profile[2])}</div><div class="p-stat-label">Completed</div></div>
+      <div class="p-stat"><div class="p-stat-val">${Number(profile[4])}</div><div class="p-stat-label">Rep score</div></div>
+      <div class="p-stat"><div class="p-stat-val">${profile[5]?"✓":"—"}</div><div class="p-stat-label">Verified</div></div>
+    </div></div>`;
+    for(const id of bizIds){
+      const idN=Number(id),c=await readContract.getCampaign(idN);
+      const goal=parseFloat(ethers.formatEther(c[7])),raised=parseFloat(ethers.formatEther(c[8]));
+      const status=Number(c[14]),prog=goal>0?Math.round((raised/goal)*100):0;
+      const goalInr=ethInr?"₹"+Math.round(goal*ethInr).toLocaleString("en-IN"):goal.toFixed(4)+" ETH";
+      let inst="—";try{inst=parseFloat(ethers.formatEther(await readContract.getMonthlyInstallment(idN))).toFixed(5)+" ETH";}catch{}
+      html+=`<div class="portfolio-card">
+        <div class="portfolio-header"><div class="portfolio-name">${esc(c[2])} — #${idN}</div><span class="badge ${STATUS_BADGES[status]}">${STATUSES[status]}</span></div>
         <div class="progress-bar" style="margin-bottom:6px"><div class="progress-fill" style="width:${prog}%"></div></div>
-        <div style="font-size:12px;color:var(--gray-500);margin-bottom:12px">Raised ${raised.toFixed(4)} / ${goal} ETH (${prog}%)${inst!=="—"?' · Suggested monthly: '+inst:''}</div>
-        ${(status===2||status===1)?`<button onclick="showSection('repay');document.getElementById('repayId').value=${idN}" style="background:var(--green);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer">💸 Make repayment</button>`:''}
+        <div style="font-size:12px;color:var(--gray-500);margin-bottom:12px">Goal: ${goalInr} (${prog}% raised)${inst!=="—"?" · Monthly: "+inst:""}</div>
+        ${(status===2||status===1)?`<button onclick="showSection('repay');document.getElementById('repayId').value=${idN}" style="background:var(--green);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer">💸 Make repayment</button>`:""}
       </div>`;
     }
-    bizEl.innerHTML = html;
-  } catch(e) { console.error(e); bizEl.innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Could not load campaigns</h3></div>'; }
+    bizEl.innerHTML=html;
+  }catch(e){bizEl.innerHTML='<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Could not load</h3></div>';}
 }
 
-// ── REPAYMENT ──────────────────────────────────────────────
-async function loadRepayInfo() {
-  const id = parseInt(document.getElementById("repayId").value);
-  if (isNaN(id) || !readContract) return;
-  const el = document.getElementById("repayInfo");
-  try {
-    const c = await readContract.getCampaign(id);
-    const model = Number(c[6]);
-    const status = Number(c[14]);
-    if (status !== 2 && status !== 1) { el.textContent = `Campaign #${id} status: ${STATUSES[status]} — not in repayment phase`; el.style.display="block"; return; }
-    let inst = "";
-    try { inst = parseFloat(ethers.formatEther(await readContract.getMonthlyInstallment(id))).toFixed(5); } catch{}
-    el.innerHTML = `Campaign: <strong>${esc(c[2])}</strong> · ${model===0?'Revenue share':'Fixed return'} · Suggested monthly: <strong>${inst} ETH</strong>`;
-    el.style.display = "block";
-  } catch(e) { el.style.display="none"; }
+async function loadRepayInfo(){
+  const id=parseInt(document.getElementById("repayId").value),el=document.getElementById("repayInfo");
+  if(isNaN(id)||!readContract) return;
+  try{
+    const c=await readContract.getCampaign(id);
+    const status=Number(c[14]);
+    if(status!==2&&status!==1){el.textContent="Campaign #"+id+" is "+STATUSES[status]+" — not in repayment";el.style.display="block";return;}
+    let inst="";try{inst=parseFloat(ethers.formatEther(await readContract.getMonthlyInstallment(id))).toFixed(5);}catch{}
+    el.innerHTML=esc(c[2])+" · "+(Number(c[6])===0?"Revenue share":"Fixed return")+" · Suggested monthly: <strong>"+inst+" ETH</strong>";
+    el.style.display="block";
+  }catch(e){el.style.display="none";}
 }
 
-async function makeRepayment() {
-  if (!userAddress) { showToast("Connect your wallet first","error"); return; }
-  const id   = parseInt(document.getElementById("repayId").value);
-  const amt  = document.getElementById("repayAmt").value;
-  const note = document.getElementById("repayNote").value.trim();
-  if (isNaN(id)||!amt||!note) { setStatus("repayStatus","❌ Fill in all fields","error"); return; }
-  try {
-    const c = await readContract.getCampaign(id);
-    const model = Number(c[6]);
+async function makeRepayment(){
+  if(!userAddress){showToast("Connect your wallet first","error");return;}
+  const id=parseInt(document.getElementById("repayId").value),amt=document.getElementById("repayAmt").value,note=document.getElementById("repayNote").value.trim();
+  if(isNaN(id)||!amt||!note){setStatus("repayStatus","❌ Fill in all fields","error");return;}
+  try{
+    const c=await readContract.getCampaign(id);
     setStatus("repayStatus","Confirm in MetaMask…","loading");
-    const tx = model===0
-      ? await writeContract.distributeRevenue(id, note, { value: ethers.parseEther(amt) })
-      : await writeContract.repayInstallment(id, note, { value: ethers.parseEther(amt) });
+    const tx=Number(c[6])===0?await writeContract.distributeRevenue(id,note,{value:ethers.parseEther(amt)}):await writeContract.repayInstallment(id,note,{value:ethers.parseEther(amt)});
     setStatus("repayStatus","Waiting for confirmation…","loading");
     await tx.wait();
-    setStatus("repayStatus","✅ Payment sent to all investors!","success");
-    showToast("Repayment successful! Reputation score +10");
-  } catch(e) {
-    console.error(e);
-    setStatus("repayStatus","❌ " + (e.reason || e.message || "Failed"),"error");
-  }
+    setStatus("repayStatus","✅ Payment sent! Reputation +10","success");
+    showToast("Repayment successful!");
+  }catch(e){setStatus("repayStatus","❌ "+(e.reason||e.message||"Failed"),"error");}
 }
 
-async function loadRepayHistory() {
-  const id = parseInt(document.getElementById("histId").value);
-  const el = document.getElementById("repayHistory");
-  if (isNaN(id)||!readContract) { el.innerHTML='<div style="font-size:13px;color:var(--gray-500)">Enter a campaign ID</div>'; return; }
-  el.innerHTML = '<div class="spinner"><div class="spinner-circle"></div></div>';
-  try {
-    const hist = await readContract.getRepaymentHistory(id);
-    if (!hist.length) { el.innerHTML='<div style="font-size:13px;color:var(--gray-500);padding:12px 0">No repayments yet for this campaign</div>'; return; }
-    el.innerHTML = hist.map((h,i) => `
+async function loadRepayHistory(){
+  const id=parseInt(document.getElementById("histId").value),el=document.getElementById("repayHistory");
+  if(isNaN(id)||!readContract){el.innerHTML='<div style="font-size:13px;color:var(--gray-500)">Enter a campaign ID</div>';return;}
+  el.innerHTML='<div class="spinner"><div class="spinner-circle"></div></div>';
+  try{
+    const hist=await readContract.getRepaymentHistory(id);
+    if(!hist.length){el.innerHTML='<div style="font-size:13px;color:var(--gray-500);padding:12px 0">No repayments yet</div>';return;}
+    el.innerHTML=hist.map((h,i)=>`
       <div class="history-item">
-        <div>
-          <div class="history-note">Payment #${i+1} — ${esc(h[2])}</div>
-          <div class="history-date">${new Date(Number(h[1])*1000).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})}</div>
-        </div>
+        <div><div class="history-note">Payment #${i+1} — ${esc(h[2])}</div><div class="history-date">${new Date(Number(h[1])*1000).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})}</div></div>
         <div class="history-amount">${parseFloat(ethers.formatEther(h[0])).toFixed(5)} ETH</div>
       </div>`).join("");
-  } catch(e) { el.innerHTML='<div style="font-size:13px;color:var(--red)">Could not load history</div>'; }
+  }catch(e){el.innerHTML='<div style="font-size:13px;color:var(--red)">Could not load</div>';}
 }
 
-// ── HELPERS ────────────────────────────────────────────────
-function esc(s){ const d=document.createElement("div");d.textContent=s||"";return d.innerHTML; }
+function esc(s){const d=document.createElement("div");d.textContent=s||"";return d.innerHTML;}
+function setStatus(id,msg,type){const el=document.getElementById(id);if(!el)return;el.textContent=msg;el.className="status-box"+(type?" show "+type:"");}
+function showToast(msg,type){const el=document.getElementById("toast");el.textContent=msg;el.style.background=type==="error"?"var(--red)":"var(--gray-900)";el.classList.add("show");setTimeout(()=>el.classList.remove("show"),3500);}
 
-function setStatus(id, msg, type) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = msg;
-  el.className = "status-box" + (type ? " show " + type : "");
-}
-
-function showToast(msg, type) {
-  const el = document.getElementById("toast");
-  el.textContent = msg;
-  el.style.background = type==="error" ? "var(--red)" : "var(--gray-900)";
-  el.classList.add("show");
-  setTimeout(() => el.classList.remove("show"), 3500);
-}
-
-// ── WALLET EVENTS ──────────────────────────────────────────
-if (window.ethereum) {
-  window.ethereum.on("accountsChanged", () => location.reload());
-  window.ethereum.on("chainChanged", () => location.reload());
-}
-
-// ── AUTO-INIT ──────────────────────────────────────────────
-window.addEventListener("load", () => {
-  initReadOnly();
-  // If wallet already connected from previous session, reconnect silently
-  if (window.ethereum?.selectedAddress) {
-    connectWallet().catch(console.error);
-  }
-});
+if(window.ethereum){window.ethereum.on("accountsChanged",()=>location.reload());window.ethereum.on("chainChanged",()=>location.reload());}
+window.addEventListener("load",()=>{initReadOnly();if(window.ethereum?.selectedAddress)connectWallet().catch(console.error);});
 </script>
 </body>
 </html>
