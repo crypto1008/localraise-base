@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title id="pageTitle">Loading Campaign — LocalRaise</title>
+<meta id="metaDesc" name="description" content="Fund local businesses on Base blockchain. Earn real returns. No banks needed."/>
+<meta id="ogTitle" property="og:title" content="LocalRaise Campaign"/>
+<meta id="ogDesc" property="og:description" content="Invest in a local business and earn real returns on Base blockchain."/>
+<meta property="og:type" content="website"/>
+<meta id="ogUrl" property="og:url" content="https://crypto1008.github.io/localraise-base/campaign/"/>
+<meta property="og:image" content="https://crypto1008.github.io/localraise-base/og-image.png"/>
+<link rel="canonical" id="canonicalUrl" href="https://crypto1008.github.io/localraise-base/campaign/"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#0052ff;--blue-dark:#003ecc;--blue-bg:#eff4ff;
+  --green:#16a34a;--green-bg:#f0fdf4;
+  --amber:#d97706;--amber-bg:#fffbeb;
+  --red:#dc2626;--red-bg:#fef2f2;
+  --orange:#ea580c;--orange-bg:#fff7ed;
+  --gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;
+  --gray-300:#d1d5db;--gray-400:#9ca3af;--gray-500:#6b7280;
+  --gray-600:#4b5563;--gray-700:#374151;--gray-800:#1f2937;--gray-900:#111827;
+  --white:#fff;--font:'Plus Jakarta Sans',sans-serif;
+  --radius:10px;--radius-lg:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--gray-50);color:var(--gray-900);-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--gray-200);height:60px;display:flex;align-items:center;padding:0 20px}
+.nav-inner{max-width:900px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-logo-mark{width:30px;height:30px;background:var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.nav-logo-mark svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.nav-logo-text{font-size:16px;font-weight:800;color:var(--gray-900)}
+.nav-price{font-size:12px;font-weight:600;color:var(--gray-500);background:var(--gray-100);padding:4px 10px;border-radius:16px;border:1px solid var(--gray-200)}
+.btn-nav{background:var(--blue);color:#fff;border:none;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);text-decoration:none;display:inline-block}
+.btn-nav:hover{background:var(--blue-dark)}
+
+/* LAYOUT */
+.page{max-width:900px;margin:0 auto;padding:28px 20px 80px;display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+
+/* LEFT COLUMN */
+.breadcrumb{font-size:13px;color:var(--gray-500);margin-bottom:16px;grid-column:span 2}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+
+.main-card{background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);overflow:hidden}
+.campaign-banner{height:220px;background:linear-gradient(135deg,var(--blue-bg),#dbeafe);display:flex;align-items:center;justify-content:center;font-size:64px;position:relative}
+.campaign-banner img{width:100%;height:100%;object-fit:cover}
+.banner-fallback{text-align:center}
+.banner-emoji{font-size:56px;margin-bottom:8px}
+.banner-cat{font-size:13px;font-weight:600;color:var(--blue)}
+.card-body{padding:24px}
+.campaign-name{font-size:24px;font-weight:800;color:var(--gray-900);letter-spacing:-.5px;margin-bottom:6px;line-height:1.2}
+.campaign-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700}
+.b-food{background:#fff7ed;color:#c2410c}
+.b-retail{background:var(--blue-bg);color:var(--blue-dark)}
+.b-transport{background:#f5f3ff;color:#6d28d9}
+.b-active{background:var(--green-bg);color:var(--green)}
+.b-funded{background:var(--blue-bg);color:var(--blue)}
+.b-repaying{background:var(--amber-bg);color:var(--amber)}
+.b-completed{background:var(--green-bg);color:var(--green)}
+.b-cancelled{background:var(--gray-100);color:var(--gray-500)}
+.b-defaulted{background:var(--red-bg);color:var(--red)}
+.b-revenue{background:#fdf4ff;color:#7e22ce}
+.b-fixed{background:var(--amber-bg);color:var(--amber)}
+.loc{font-size:13px;color:var(--gray-500);display:flex;align-items:center;gap:4px}
+.campaign-desc{font-size:15px;color:var(--gray-700);line-height:1.75;margin-bottom:20px}
+.section-head{font-size:13px;font-weight:700;color:var(--gray-900);letter-spacing:.2px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--gray-100)}
+.progress-section{margin-bottom:20px}
+.progress-numbers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px}
+.p-num{background:var(--gray-50);border-radius:10px;padding:12px;text-align:center}
+.p-num-val{font-size:18px;font-weight:800;color:var(--gray-900);margin-bottom:2px}
+.p-num-val.inr{font-size:15px}
+.p-num-label{font-size:11px;color:var(--gray-500);font-weight:500}
+.progress-bar-wrap{margin-bottom:6px}
+.progress-bar{height:8px;background:var(--gray-200);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;transition:width .6s}
+.pf-active{background:var(--blue)}
+.pf-done{background:var(--green)}
+.progress-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--gray-500);margin-top:4px}
+.countdown-wrap{display:inline-flex;align-items:center;gap:6px;background:var(--orange-bg);border:1px solid #fed7aa;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;color:var(--orange)}
+.countdown-wrap.urgent{background:var(--red-bg);border-color:#fca5a5;color:var(--red)}
+.countdown-wrap.expired{background:var(--gray-100);border-color:var(--gray-200);color:var(--gray-500)}
+.investors-row{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--gray-600);margin-top:10px}
+
+/* UPDATES FEED */
+.update-item{padding:14px 0;border-bottom:1px solid var(--gray-100)}
+.update-item:last-child{border-bottom:none}
+.update-header{display:flex;justify-content:space-between;margin-bottom:6px}
+.update-num{font-size:12px;font-weight:700;color:var(--blue)}
+.update-date{font-size:12px;color:var(--gray-500)}
+.update-text{font-size:14px;color:var(--gray-700);line-height:1.6}
+
+/* RIGHT COLUMN — INVEST BOX */
+.invest-box{background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:22px;position:sticky;top:76px}
+.invest-box-title{font-size:16px;font-weight:800;color:var(--gray-900);margin-bottom:4px}
+.invest-box-sub{font-size:13px;color:var(--gray-500);margin-bottom:18px}
+.return-highlight{background:var(--blue-bg);border-radius:10px;padding:14px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rh-item{}
+.rh-val{font-size:20px;font-weight:800;color:var(--blue);margin-bottom:2px}
+.rh-label{font-size:11px;color:var(--gray-600);font-weight:500}
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:11px;font-weight:700;color:var(--gray-700);margin-bottom:5px;letter-spacing:.3px;text-transform:uppercase}
+.form-input{width:100%;padding:10px 13px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:14px;font-family:var(--font);color:var(--gray-900);outline:none;transition:border .15s}
+.form-input:focus{border-color:var(--blue)}
+.dual-input{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.input-hint{font-size:11px;color:var(--gray-500);margin-top:3px}
+.calc-box{background:var(--green-bg);border:1px solid #bbf7d0;border-radius:8px;padding:12px;margin-bottom:14px;display:none}
+.calc-row{display:flex;justify-content:space-between;font-size:13px;color:var(--gray-700);margin-bottom:3px}
+.calc-row strong{font-weight:700;color:var(--gray-900)}
+.calc-row.tax{color:var(--orange);font-size:12px}
+.calc-row.net{font-weight:700;color:var(--green);font-size:14px;border-top:1px solid #bbf7d0;padding-top:6px;margin-top:4px}
+.tax-note{background:var(--orange-bg);border:1px solid #fed7aa;border-radius:7px;padding:8px 11px;font-size:11px;color:#9a3412;margin-bottom:14px;line-height:1.6}
+.warn-note{background:var(--amber-bg);border:1px solid #fcd34d;border-radius:7px;padding:8px 11px;font-size:11px;color:#92400e;margin-bottom:14px;line-height:1.6}
+.btn-invest{width:100%;background:var(--blue);color:#fff;border:none;padding:13px;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);transition:background .15s;margin-bottom:8px}
+.btn-invest:hover{background:var(--blue-dark)}
+.btn-invest:disabled{background:var(--gray-300);cursor:not-allowed}
+.btn-wa{width:100%;background:#25D366;color:#fff;border:none;padding:11px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);display:flex;align-items:center;justify-content:center;gap:7px;text-decoration:none;margin-bottom:8px}
+.btn-wa:hover{opacity:.9}
+.btn-back{width:100%;background:var(--white);color:var(--gray-700);border:1.5px solid var(--gray-200);padding:10px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);text-decoration:none;display:block;text-align:center}
+.btn-back:hover{border-color:var(--blue);color:var(--blue)}
+.status-box{margin-top:10px;padding:10px 13px;border-radius:8px;font-size:13px;font-weight:500;display:none}
+.status-box.show{display:block}
+.sb-success{background:var(--green-bg);color:#166534;border:1px solid #86efac}
+.sb-error{background:var(--red-bg);color:#991b1b;border:1px solid #fca5a5}
+.sb-loading{background:var(--blue-bg);color:#1e3a8a;border:1px solid #bfdbfe}
+
+/* TRUST STRIP */
+.trust-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--gray-100)}
+.trust-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--gray-600)}
+.trust-icon{color:var(--green);font-size:13px;flex-shrink:0}
+
+/* LOADING */
+.loading-page{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;color:var(--gray-400)}
+.spinner-circle{width:36px;height:36px;border:3px solid var(--gray-200);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-page{text-align:center;padding:72px 20px}
+.error-page h2{font-size:20px;font-weight:800;color:var(--gray-700);margin-bottom:8px}
+.error-page p{font-size:14px;color:var(--gray-500);margin-bottom:20px}
+
+/* FOOTER */
+footer{background:var(--gray-900);color:var(--gray-500);padding:24px;text-align:center;font-size:12px;margin-top:40px}
+footer a{color:var(--gray-400);text-decoration:none;margin:0 8px}
+footer a:hover{color:#fff}
+
+/* WALLET CONNECTED */
+.wallet-pill{font-size:12px;font-weight:600;color:var(--gray-700);background:var(--gray-100);padding:5px 10px;border-radius:16px;border:1px solid var(--gray-200)}
+
+@media(max-width:680px){
+  .page{grid-template-columns:1fr;padding:16px 16px 60px}
+  .progress-numbers{grid-template-columns:1fr 1fr}
+  .invest-box{position:static}
+  .breadcrumb{grid-column:1}
+  .dual-input{grid-template-columns:1fr}
+  .return-highlight{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="../">
+      <div class="nav-logo-mark"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+      <span class="nav-logo-text">LocalRaise</span>
+    </a>
+    <span class="nav-price" id="navPrice">Loading…</span>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="wallet-pill" id="walletPill" style="display:none"></span>
+      <a class="btn-nav" href="../">Browse all ↗</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Loading state -->
+<div id="loadingState" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;color:var(--gray-400)">
+  <div class="spinner-circle"></div>
+  <div style="font-size:14px">Loading campaign from Base…</div>
+</div>
+
+<!-- Error state -->
+<div id="errorState" style="display:none" class="error-page">
+  <div style="font-size:40px;margin-bottom:12px">❌</div>
+  <h2>Campaign not found</h2>
+  <p id="errorMsg">The campaign ID in the URL may be incorrect.</p>
+  <a class="btn-nav" href="../">Browse all campaigns</a>
+</div>
+
+<!-- Main content -->
+<div id="mainContent" style="display:none">
+  <div class="page">
+    <div class="breadcrumb">
+      <a href="../">LocalRaise</a> › <a href="../">Campaigns</a> › <span id="breadCrumbName">Campaign</span>
+    </div>
+
+    <!-- LEFT COLUMN -->
+    <div>
+      <div class="main-card">
+        <div class="campaign-banner" id="campaignBanner">
+          <div class="banner-fallback">
+            <div class="banner-emoji" id="bannerEmoji">🏪</div>
+            <div class="banner-cat" id="bannerCat">Business</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h1 class="campaign-name" id="campName">—</h1>
+          <div class="campaign-meta">
+            <span class="loc">📍 <span id="campLoc">—</span></span>
+            <span class="badge" id="catBadge">—</span>
+            <span class="badge" id="statusBadge">—</span>
+            <span class="badge" id="modelBadge">—</span>
+          </div>
+          <p class="campaign-desc" id="campDesc">—</p>
+
+          <!-- PROGRESS -->
+          <div class="progress-section">
+            <div class="section-head">Funding progress</div>
+            <div class="progress-numbers">
+              <div class="p-num">
+                <div class="p-num-val inr" id="raisedInr">—</div>
+                <div class="p-num-val" id="raisedEth" style="font-size:13px;color:var(--gray-500)">—</div>
+                <div class="p-num-label">Raised</div>
+              </div>
+              <div class="p-num">
+                <div class="p-num-val inr" id="goalInr">—</div>
+                <div class="p-num-val" id="goalEth" style="font-size:13px;color:var(--gray-500)">—</div>
+                <div class="p-num-label">Goal</div>
+              </div>
+              <div class="p-num">
+                <div class="p-num-val" id="progressPct">—</div>
+                <div class="p-num-label">Funded</div>
+              </div>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+              <div class="progress-labels"><span id="raisedLabel">—</span><span id="goalLabel">—</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px">
+              <div class="countdown-wrap" id="countdownWrap"><span id="countdown">—</span></div>
+              <div class="investors-row">👥 <strong id="investorCount">—</strong>&nbsp;investors</div>
+            </div>
+          </div>
+
+          <!-- UPDATES -->
+          <div id="updatesSection" style="display:none">
+            <div class="section-head" style="margin-top:20px">Business updates</div>
+            <div id="updatesList"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div>
+      <div class="invest-box">
+        <div class="invest-box-title" id="boxTitle">Invest in this campaign</div>
+        <div class="invest-box-sub" id="boxSub">Earn real returns on Base blockchain</div>
+
+        <div class="return-highlight">
+          <div class="rh-item">
+            <div class="rh-val" id="rhReturn">—%</div>
+            <div class="rh-label">Return offered</div>
+          </div>
+          <div class="rh-item">
+            <div class="rh-val" id="rhMonths">—mo</div>
+            <div class="rh-label">Repayment period</div>
+          </div>
+        </div>
+
+        <div id="investFormSection">
+          <div class="form-group">
+            <label class="form-label">Your investment amount</label>
+            <div class="dual-input">
+              <div>
+                <input class="form-input" type="number" id="amtInr" placeholder="₹ Rupees" step="100" min="250" oninput="onInrInput()"/>
+                <div class="input-hint">Enter in ₹ Rupees</div>
+              </div>
+              <div>
+                <input class="form-input" type="number" id="amtEth" placeholder="ETH" step="0.001" min="0.001" oninput="onEthInput()" style="background:var(--gray-50)"/>
+                <div class="input-hint">Or enter in ETH</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-box" id="calcBox">
+            <div class="calc-row"><span>You invest</span><strong id="cInvested">—</strong></div>
+            <div class="calc-row"><span>Gross return</span><strong id="cGross">—</strong></div>
+            <div class="calc-row"><span>Monthly estimate</span><strong id="cMonthly">—</strong></div>
+            <div class="calc-row tax"><span>30% India crypto tax</span><span id="cTax">—</span></div>
+            <div class="calc-row net"><span>Net after tax</span><strong id="cNet">—</strong></div>
+          </div>
+
+          <div class="tax-note">⚠️ <strong>Tax note:</strong> Crypto gains are taxed at 30% flat in India. The calculator above shows your estimated net return after tax.</div>
+          <div class="warn-note">⚠️ Invest only what you can hold for the full repayment period. Returns depend on business performance.</div>
+
+          <button class="btn-invest" id="investBtn" onclick="handleInvest()">💰 Invest Now</button>
+        </div>
+
+        <div id="closedSection" style="display:none">
+          <div style="text-align:center;padding:16px;background:var(--gray-50);border-radius:10px;margin-bottom:14px">
+            <div style="font-size:24px;margin-bottom:6px" id="closedIcon">✅</div>
+            <div style="font-size:14px;font-weight:700;color:var(--gray-700)" id="closedTitle">Campaign closed</div>
+            <div style="font-size:13px;color:var(--gray-500);margin-top:4px" id="closedSub">This campaign is no longer accepting investments</div>
+          </div>
+        </div>
+
+        <a class="btn-wa" id="waShareBtn" href="#" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Share on WhatsApp
+        </a>
+        <a class="btn-back" href="../">← Browse all campaigns</a>
+
+        <div class="status-box" id="investStatus"></div>
+
+        <div class="trust-strip">
+          <div class="trust-item"><span class="trust-icon">✓</span>Auto-refund if goal fails</div>
+          <div class="trust-item"><span class="trust-icon">✓</span>100% onchain transparent</div>
+          <div class="trust-item"><span class="trust-icon">✓</span>Contract verified on Base</div>
+          <div class="trust-item"><span class="trust-icon">✓</span>₹1 gas fee on Base</div>
+        </div>
+
+        <div style="margin-top:14px;text-align:center">
+          <a href="https://basescan.org/address/0x93D50E14d2D269b594997677bEa46B766DD9A7ED" target="_blank" style="font-size:11px;color:var(--gray-400);text-decoration:none">View contract on Basescan ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <a href="../">LocalRaise App</a>
+    <a href="../blog/">Blog</a>
+    <a href="https://basescan.org/address/0x93D50E14d2D269b594997677bEa46B766DD9A7ED" target="_blank">Contract ↗</a>
+    <a href="https://github.com/crypto1008/localraise-base" target="_blank">GitHub ↗</a>
+  </div>
+  <div style="margin-top:8px">© 2025 LocalRaise. Deployed on Base Mainnet (Chain ID 8453). Not a bank or NBFC. Users responsible for tax compliance.</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+<script>
+const CONTRACT_ADDRESS = "0x93D50E14d2D269b594997677bEa46B766DD9A7ED";
+const BASE_RPC = "https://mainnet.base.org";
+const BASE_URL = "https://crypto1008.github.io/localraise-base";
+const ABI = [
+  "function getCampaign(uint256) external view returns (tuple(uint256,address,string,string,string,uint8,uint8,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint8,uint256,uint256,uint256))",
+  "function getCampaignInvestors(uint256) external view returns (address[])",
+  "function getCampaignUpdates(uint256) external view returns (tuple(uint256,string,uint256)[])",
+  "function invest(uint256) external payable"
+];
+const CAT_LABELS = ["🍵 Food & Beverage","🛒 Retail & Shop","🚗 Transport"];
+const CAT_BADGES = ["b-food","b-retail","b-transport"];
+const CAT_EMOJIS = ["🍵","🛒","🚗"];
+const STATUSES = ["Active","Funded","Repaying","Completed","Cancelled","Defaulted"];
+const STATUS_BADGES = ["b-active","b-funded","b-repaying","b-completed","b-cancelled","b-defaulted"];
+
+let readContract = null, writeContract = null, signer = null, userAddress = null;
+let campaignData = null, campaignId = null;
+let ethInr = 0, ethUsd = 0;
+let countdownTimer = null;
+
+// Get campaign ID from URL query param
+const params = new URLSearchParams(window.location.search);
+campaignId = params.get("id");
+
+async function init() {
+  await fetchEthPrice();
+  try {
+    const provider = new ethers.JsonRpcProvider(BASE_RPC);
+    readContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
+    if (!campaignId && campaignId !== "0") { showError("No campaign ID in URL. Use ?id=0 in the URL."); return; }
+    await loadCampaign();
+  } catch(e) {
+    showError("Could not connect to Base network. Check your internet connection.");
+  }
+}
+
+async function fetchEthPrice() {
+  try {
+    const r = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr,usd");
+    const d = await r.json();
+    ethInr = d.ethereum.inr; ethUsd = d.ethereum.usd;
+    document.getElementById("navPrice").textContent = "1 ETH = ₹" + Math.round(ethInr).toLocaleString("en-IN");
+  } catch(e) { document.getElementById("navPrice").textContent = ""; }
+}
+
+function inrFmt(rupees) { return "₹" + Math.round(rupees).toLocaleString("en-IN"); }
+function ethFmt(eth) { return parseFloat(eth).toFixed(4) + " ETH"; }
+
+async function loadCampaign() {
+  try {
+    const id = parseInt(campaignId);
+    const [c, investors, updates] = await Promise.all([
+      readContract.getCampaign(id),
+      readContract.getCampaignInvestors(id).catch(() => []),
+      readContract.getCampaignUpdates(id).catch(() => [])
+    ]);
+    campaignData = c;
+
+    const goal = parseFloat(ethers.formatEther(c[7]));
+    const raised = parseFloat(ethers.formatEther(c[8]));
+    const cat = Number(c[5]), model = Number(c[6]), status = Number(c[14]);
+    const retPct = Number(c[11]), months = Number(c[10]);
+    const progress = goal > 0 ? Math.min(Math.round((raised / goal) * 100), 100) : 0;
+    const name = c[2], desc = c[3], loc = c[4];
+    const isActive = status === 0 && Date.now() / 1000 < Number(c[9]);
+
+    // Page title & meta
+    document.getElementById("pageTitle").textContent = name + " — LocalRaise";
+    document.getElementById("metaDesc").setAttribute("content", desc.slice(0, 160));
+    document.getElementById("ogTitle").setAttribute("content", name + " is raising " + (ethInr ? inrFmt(goal * ethInr) : goal.toFixed(4) + " ETH") + " on LocalRaise");
+    document.getElementById("ogDesc").setAttribute("content", desc.slice(0, 160));
+    const campUrl = BASE_URL + "/campaign/?id=" + id;
+    document.getElementById("ogUrl").setAttribute("content", campUrl);
+    document.getElementById("canonicalUrl").setAttribute("href", campUrl);
+
+    // Banner
+    document.getElementById("bannerEmoji").textContent = CAT_EMOJIS[cat] || "🏪";
+    document.getElementById("bannerCat").textContent = CAT_LABELS[cat] || "Business";
+
+    // Breadcrumb + name
+    document.getElementById("breadCrumbName").textContent = name;
+    document.getElementById("campName").textContent = name;
+    document.getElementById("campLoc").textContent = loc;
+    document.getElementById("campDesc").textContent = desc;
+
+    // Badges
+    const catB = document.getElementById("catBadge");
+    catB.textContent = CAT_LABELS[cat]; catB.className = "badge " + CAT_BADGES[cat];
+    const statB = document.getElementById("statusBadge");
+    statB.textContent = "● " + STATUSES[status]; statB.className = "badge " + STATUS_BADGES[status];
+    const modB = document.getElementById("modelBadge");
+    modB.textContent = model === 0 ? "Revenue share" : "Fixed return";
+    modB.className = "badge " + (model === 0 ? "b-revenue" : "b-fixed");
+
+    // Progress numbers
+    document.getElementById("raisedInr").textContent = ethInr ? inrFmt(raised * ethInr) : "";
+    document.getElementById("raisedEth").textContent = ethFmt(raised);
+    document.getElementById("goalInr").textContent = ethInr ? inrFmt(goal * ethInr) : "";
+    document.getElementById("goalEth").textContent = ethFmt(goal);
+    document.getElementById("progressPct").textContent = progress + "%";
+    document.getElementById("raisedLabel").textContent = ethFmt(raised) + " raised";
+    document.getElementById("goalLabel").textContent = "Goal: " + ethFmt(goal);
+    const fill = document.getElementById("progressFill");
+    fill.style.width = progress + "%";
+    fill.className = "progress-fill " + (progress >= 100 ? "pf-done" : "pf-active");
+
+    // Investor count
+    document.getElementById("investorCount").textContent = investors.length;
+
+    // Countdown
+    startCountdown(Number(c[9]), status);
+
+    // Invest box
+    document.getElementById("rhReturn").textContent = retPct + "%";
+    document.getElementById("rhMonths").textContent = months + "mo";
+
+    if (isActive) {
+      document.getElementById("investFormSection").style.display = "block";
+      document.getElementById("closedSection").style.display = "none";
+      document.getElementById("boxTitle").textContent = "Invest in " + name;
+      document.getElementById("boxSub").textContent = "Earn " + retPct + "% return over " + months + " months";
+    } else {
+      document.getElementById("investFormSection").style.display = "none";
+      document.getElementById("closedSection").style.display = "block";
+      const icons = { 3:"🎉", 4:"❌", 5:"⚠️" };
+      const titles = { 1:"Fully funded!", 2:"In repayment", 3:"Campaign completed!", 4:"Campaign cancelled", 5:"Campaign defaulted" };
+      const subs = { 1:"This campaign met its goal", 2:"Business is repaying investors", 3:"All investors have been repaid", 4:"This campaign was cancelled — funds refunded", 5:"This campaign has defaulted" };
+      document.getElementById("closedIcon").textContent = icons[status] || "ℹ️";
+      document.getElementById("closedTitle").textContent = titles[status] || STATUSES[status];
+      document.getElementById("closedSub").textContent = subs[status] || "";
+    }
+
+    // WhatsApp share
+    const waMsg = encodeURIComponent(
+      name + " is raising " + (ethInr ? inrFmt(goal * ethInr) : goal.toFixed(4) + " ETH") + " on LocalRaise!\n" +
+      desc.slice(0, 80) + "…\n" +
+      "Invest and earn " + retPct + "% returns.\n" +
+      "👉 " + campUrl
+    );
+    document.getElementById("waShareBtn").href = "https://wa.me/?text=" + waMsg;
+
+    // Updates feed
+    if (updates && updates.length > 0) {
+      document.getElementById("updatesSection").style.display = "block";
+      document.getElementById("updatesList").innerHTML = [...updates].reverse().map((u, i) =>
+        `<div class="update-item">
+          <div class="update-header">
+            <span class="update-num">Update #${updates.length - i}</span>
+            <span class="update-date">${new Date(Number(u[2]) * 1000).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" })}</span>
+          </div>
+          <div class="update-text">${esc(u[1])}</div>
+        </div>`
+      ).join("");
+    }
+
+    // Show main content
+    document.getElementById("loadingState").style.display = "none";
+    document.getElementById("mainContent").style.display = "block";
+
+  } catch(e) {
+    console.error(e);
+    showError("Campaign #" + campaignId + " could not be loaded. It may not exist yet.");
+  }
+}
+
+function startCountdown(deadlineTs, status) {
+  const el = document.getElementById("countdown");
+  const wrap = document.getElementById("countdownWrap");
+  function update() {
+    if (status !== 0) { el.textContent = "Campaign closed"; wrap.className = "countdown-wrap expired"; return; }
+    const diff = deadlineTs * 1000 - Date.now();
+    if (diff <= 0) { el.textContent = "Deadline passed"; wrap.className = "countdown-wrap expired"; return; }
+    const d = Math.floor(diff / 86400000), h = Math.floor((diff % 86400000) / 3600000), m = Math.floor((diff % 3600000) / 60000);
+    el.textContent = d > 0 ? d + "d " + h + "h " + m + "m left" : h > 0 ? h + "h " + m + "m left" : m + "m left";
+    wrap.className = "countdown-wrap" + (d <= 2 ? " urgent" : "");
+  }
+  update();
+  countdownTimer = setInterval(update, 30000);
+}
+
+// INR / ETH dual input
+function onInrInput() {
+  const v = parseFloat(document.getElementById("amtInr").value);
+  if (!v || !ethInr) { document.getElementById("amtEth").value = ""; hideCalc(); return; }
+  const eth = v / ethInr;
+  document.getElementById("amtEth").value = eth.toFixed(6);
+  showCalc(v, eth);
+}
+function onEthInput() {
+  const eth = parseFloat(document.getElementById("amtEth").value);
+  if (!eth || !ethInr) { document.getElementById("amtInr").value = ""; hideCalc(); return; }
+  const inrV = Math.round(eth * ethInr);
+  document.getElementById("amtInr").value = inrV;
+  showCalc(inrV, eth);
+}
+function showCalc(inrAmt, ethAmt) {
+  if (!campaignData) return;
+  const retPct = Number(campaignData[11]), months = Number(campaignData[10]), model = Number(campaignData[6]);
+  const gross = inrAmt * retPct / 100;
+  const monthly = model === 0 ? gross / months : (inrAmt + gross) / months;
+  const tax = gross * 0.30, net = gross - tax;
+  document.getElementById("cInvested").textContent = inrFmt(inrAmt);
+  document.getElementById("cGross").textContent = inrFmt(gross);
+  document.getElementById("cMonthly").textContent = inrFmt(monthly) + "/mo";
+  document.getElementById("cTax").textContent = "−" + inrFmt(tax);
+  document.getElementById("cNet").textContent = inrFmt(net);
+  document.getElementById("calcBox").style.display = "block";
+}
+function hideCalc() { document.getElementById("calcBox").style.display = "none"; }
+
+// Invest
+async function handleInvest() {
+  if (!userAddress) { await connectWallet(); return; }
+  const ethVal = document.getElementById("amtEth").value;
+  if (!ethVal || parseFloat(ethVal) < 0.001) {
+    setStatus("Minimum investment is 0.001 ETH (≈ " + (ethInr ? inrFmt(0.001 * ethInr) : "—") + ")", "sb-error");
+    return;
+  }
+  const goal = parseFloat(ethers.formatEther(campaignData[7]));
+  const raised = parseFloat(ethers.formatEther(campaignData[8]));
+  if (parseFloat(ethVal) > (goal - raised + 0.0001)) { setStatus("Amount exceeds remaining goal", "sb-error"); return; }
+  try {
+    setStatus("Confirm the transaction in MetaMask…", "sb-loading");
+    const tx = await writeContract.invest(parseInt(campaignId), { value: ethers.parseEther(ethVal) });
+    setStatus("Transaction sent — waiting for confirmation…", "sb-loading");
+    await tx.wait();
+    setStatus("✅ Investment confirmed! Welcome aboard.", "sb-success");
+    setTimeout(() => loadCampaign(), 3000);
+  } catch(e) {
+    setStatus("❌ " + (e.reason || e.message || "Transaction failed"), "sb-error");
+  }
+}
+
+async function connectWallet() {
+  if (!window.ethereum) { setStatus("Please install MetaMask to invest", "sb-error"); return; }
+  try {
+    const wp = new ethers.BrowserProvider(window.ethereum);
+    await wp.send("eth_requestAccounts", []);
+    const net = await wp.getNetwork();
+    if (net.chainId !== 8453n) {
+      try { await wp.send("wallet_switchEthereumChain", [{ chainId: "0x2105" }]); } catch(e) { setStatus("Please switch to Base Mainnet in MetaMask", "sb-error"); return; }
+    }
+    const walletP = new ethers.BrowserProvider(window.ethereum);
+    signer = await walletP.getSigner();
+    userAddress = await signer.getAddress();
+    writeContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+    document.getElementById("walletPill").textContent = userAddress.slice(0, 6) + "…" + userAddress.slice(-4);
+    document.getElementById("walletPill").style.display = "inline-block";
+    document.getElementById("investBtn").textContent = "💰 Confirm Investment";
+    setStatus("", "");
+  } catch(e) { setStatus("Connection failed: " + (e.message || e), "sb-error"); }
+}
+
+function setStatus(msg, cls) {
+  const el = document.getElementById("investStatus");
+  el.textContent = msg;
+  el.className = "status-box " + (msg ? "show " + cls : "");
+}
+function showError(msg) {
+  document.getElementById("loadingState").style.display = "none";
+  document.getElementById("errorState").style.display = "block";
+  document.getElementById("errorMsg").textContent = msg;
+}
+function esc(s) { const d = document.createElement("div"); d.textContent = s || ""; return d.innerHTML; }
+
+if (window.ethereum) {
+  window.ethereum.on("accountsChanged", () => location.reload());
+  window.ethereum.on("chainChanged", () => location.reload());
+}
+window.addEventListener("load", init);
+setInterval(fetchEthPrice, 60000);
+</script>
+</body>
+</html>
