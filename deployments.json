@@ -1,18 +1,35 @@
 {
   "network": "Base Mainnet",
   "chainId": 8453,
+  "rpc": "https://mainnet.base.org",
+  "explorer": "https://basescan.org",
+  "contracts": {
+    "LocalRaise": {
+      "address": "0x93D50E14d2D269b594997677bEa46B766DD9A7ED",
+      "basescan": "https://basescan.org/address/0x93D50E14d2D269b594997677bEa46B766DD9A7ED",
+      "deployer": "0x2e8a4d0a86218C3feA106660c57888F3C7AD6A4E",
+      "compiler": "solidity 0.8.20",
+      "optimizer": "viaIR: true, runs: 200"
+    }
+  },
   "versions": {
     "v1.0.0": {
-      "features": ["create", "invest", "repay", "refund"]
+      "contract": "LocalRaise",
+      "address": "0x93D50E14d2D269b594997677bEa46B766DD9A7ED",
+      "features": ["create", "invest", "repay", "refund", "platform-fee"]
     },
     "v2.0.0": {
+      "contract": "LocalRaise V2",
+      "address": "0x93D50E14d2D269b594997677bEa46B766DD9A7ED",
       "features": [
-        "default protection",
-        "reviews",
-        "updates",
-        "early exit",
-        "milestones",
-        "minimum investment"
+        "default-protection",
+        "investor-reviews",
+        "campaign-updates",
+        "early-exit-marketplace",
+        "milestone-tracking",
+        "minimum-investment",
+        "business-reputation-score",
+        "blacklist-protection"
       ]
     }
   }
